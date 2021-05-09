@@ -4,12 +4,12 @@ import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-import Login from './Login';
-import AddTree from './AddTree';
-import AddPlot from './AddPlot';
-import SignUp from './SignUp';
-import SignIn from './SignIn';
-import Add from './Add';
+import Login from './login/Login';
+import AddTree from './add/AddTree';
+import AddPlot from './add/AddPlot';
+import SignUp from './login/SignUp';
+import SignIn from './login/SignIn';
+import Add from './add/Add';
 import MyForest from './MyForest';
 import SapFlow from './SapFlow';
 
