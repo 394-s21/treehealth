@@ -14,7 +14,7 @@ export default class Login extends React.Component {
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
-        <Image style={styles.image} source={require('./logo.png')} />
+        <Image style={styles.image} source={require('../logo.png')} />
       </Text>
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>

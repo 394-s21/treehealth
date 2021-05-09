@@ -11,7 +11,8 @@ import SignUp from './login/SignUp';
 import SignIn from './login/SignIn';
 import Add from './add/Add';
 import MyForest from './MyForest';
-import SapFlow from './SapFlow';
+import SapFlow from './plots/SapFlow';
+import Charts from './plots/Charts';
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,7 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator style={styles.container}>
+        <Stack.Screen name="Charts" component={Charts} key="charts" />
         <Stack.Screen name="TreeKeeper" component={Login} key ="login"/>
         <Stack.Screen name="Sign up" component={SignUp} key ="signup"/>
         <Stack.Screen name="Sign in" component={SignIn} key ="signin"/>
