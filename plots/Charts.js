@@ -86,20 +86,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#ffffff"
-    },
-    labelSFI: {
-        fill: '#00a3de',
-        fontFamily: "inherit",
-        fontSize: 12,
-        fontStyle: "italic"
-    },
-    labelSFO: {
-        fill: '#7c270b',
-        fontFamily: "inherit",
-        fontSize: 12,
-        fontStyle: "italic"
-    },
-    
+    },    
   });
   
 
