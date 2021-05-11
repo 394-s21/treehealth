@@ -1,15 +1,11 @@
-import * as React from 'react';
+import  React from 'react';
 import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
-export default class Login extends React.Component {
-  constructor(props) {
-    super(props);
+export default function Login({navigation}) {
 
-  }
-  render() {
     return (
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
@@ -24,7 +20,7 @@ export default class Login extends React.Component {
           color="#38735D"
           backgroundColor="green"
           onPress={() =>
-          this.props.navigation.dispatch(
+          navigation.dispatch(
             CommonActions.navigate({
               name: 'Sign up',
 
@@ -38,10 +34,9 @@ export default class Login extends React.Component {
           color="#38735D"
           backgroundColor="green"
           onPress={() =>
-          this.props.navigation.dispatch(
+          navigation.dispatch(
             CommonActions.navigate({
               name: 'Sign in',
-
             })
           )}
           ></Button>
@@ -49,7 +44,7 @@ export default class Login extends React.Component {
       </View>
     </View>
   );
-}}
+}
 
 const styles = StyleSheet.create({
   container: {

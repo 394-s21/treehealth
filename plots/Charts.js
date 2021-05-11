@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 // import { ListItem, Icon } from 'react-native-elements'
 // import { NavigationContainer, CommonActions } from '@react-navigation/native';
@@ -9,8 +9,7 @@ import { View, StyleSheet } from 'react-native';
 import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from '../Victory';
 
 
-
-function Charts ({navigation}) {
+export default function Charts ({navigation}) {
 
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
     var sfmInDataHourly = []
@@ -47,7 +46,6 @@ function Charts ({navigation}) {
             sfmInDataDaily.push({time: dateVal, sapFlowIn: inside})
             sfmOutDataDaily.push({time: dateVal, sapFlowOut: outside})
         }
-
 
 
         prevIn = inside
@@ -88,7 +86,3 @@ const styles = StyleSheet.create({
       backgroundColor: "#ffffff"
     },    
   });
-  
-
-
-export default Charts;

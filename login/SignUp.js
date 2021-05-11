@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,79 +7,69 @@ import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements';
 
 
-export default class SignUp extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        email: "",
-        username: "",
-        password: "",
-        date: ''
-    }
-  }
+export default function SignUp({ navigation }) {
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [date, setDate] = useState(new Date())
 
-  selectDate = (date) => {
-    this.setState({date: date});
-  }
-  
-  render() {
-    return (
+  return (
     <View style={styles.container}>
       <Text style={styles.logo}>
         <Image style={styles.image} source={require('../logo.png')} />
       </Text>
       <Text style={styles.paragraph}>
         <Input
-              style={styles.textInput}
-              onChangeText={text => this.setState({email: text})}
-              value={this.state.email}
-              placeholder = "Email*"
+          style={styles.textInput}
+          onChangeText={setEmail}
+          value={email}
+          placeholder="Email*"
         />
         <Input
-              style={styles.textInput}
-              onChangeText={text => this.setState({username: text})}
-              value={this.state.username}
-              placeholder = "Username*"
+          style={styles.textInput}
+          onChangeText={setUsername}
+          value={username}
+          placeholder="Username*"
         />
         <Input
-              style={styles.textInput}
-              onChangeText={text => this.setState({password: text})}
-              value={this.state.password}
-              placeholder = "Password*"
-              secureTextEntry={true}
+          style={styles.textInput}
+          onChangeText={setPassword}
+          value={password}
+          placeholder="Password*"
+          secureTextEntry={true}
         />
         <View style={styles.datePicker}>
           <Text style={{ marginTop: 7, color: 'gray', fontSize: 16 }}> Birthdate*&nbsp;&nbsp;</Text>
           <DatePicker
-              style={{ width: vw(50) }}
-              date={this.state.date}
-              format="MM-DD-YYYY"
-              minDate="01-01-1900"
-              maxDate="01-01-2021"
-              onDateChange={this.selectDate}
-            />
+            style={{ width: vw(50) }}
+            date={date}
+            format="MM-DD-YYYY"
+            minDate="01-01-1900"
+            maxDate="01-01-2021"
+            onDateChange={setDate}
+          />
         </View>
       </Text>
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>
         <View style={styles.button}>
           <Button style={styles.insidebutton}
-          title="SIGN UP"
-          color="#38735D"
-          backgroundColor='green'
-          onPress={() =>
-          this.props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'My forest',
-              key: 'my forest from sign in'
-            })
-          )}
+            title="SIGN UP"
+            color="#38735D"
+            backgroundColor='green'
+            onPress={() =>
+              navigation.dispatch(
+                CommonActions.navigate({
+                  name: 'My forest',
+                  key: 'my forest from sign in'
+                })
+              )}
           ></Button>
         </View>
       </View>
     </View>
   );
-}}
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -107,7 +97,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
-    flexDirection:"row",
+    flexDirection: "row",
     fontSize: 18,
   },
   button: {
