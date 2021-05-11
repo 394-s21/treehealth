@@ -21,13 +21,16 @@ function Charts ({navigation}) {
 
     // var buff = readFileSync('../data/SFM2I102_sycamore.json');
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
-    var sfmInData = []
-    var sfmOutData = []
+    var sfmInDataHourly = []
+    var sfmInDataDaily = []
+    var sfmOutDataHourly = []
+    var sfmOutDataDaily = []
 
     var prevIn = 0
     var prevOut = 0
 
     for (const [key, value] of Object.entries(rawSFMData)) {
+
         if (value["Corrected In (cm/hr)"] != "") {
             var inside = parseFloat(value["Corrected In (cm/hr)"])
         } else {
@@ -40,8 +43,22 @@ function Charts ({navigation}) {
             var outside = prevOut
         }
 
-        sfmInData.push({time: key, sapFlowIn: inside})
-        sfmOutData.push({time: key, sapFlowOut: outside})
+        let dateVal = key.split(",")[0]
+        let timeVal = key.split(",")[1]
+
+        if (dateVal == "2/2/2021") {
+            sfmInDataHourly.push({time: timeVal, sapFlowIn: inside})
+            sfmOutDataHourly.push({time: timeVal, sapFlowOut: outside})
+        }
+
+        if (timeVal == "0:00:00") {
+            sfmInDataDaily.push({time: dateVal, sapFlowIn: inside})
+            sfmOutDataDaily.push({time: dateVal, sapFlowOut: outside})
+        }
+
+
+        // sfmInData.push({time: key, sapFlowIn: inside})
+        // sfmOutData.push({time: key, sapFlowOut: outside})
 
         prevIn = inside
         prevOut = outside
@@ -55,12 +72,13 @@ function Charts ({navigation}) {
             <VictoryChart theme={VictoryTheme.material}>
                 <VictoryAxis offsetY={50}
                 />
-                <VictoryLine data={sfmInData}
+                <VictoryAxis dependentAxis />
+                <VictoryLine data={sfmInDataHourly}
                 x="time"
-                y="value" />
-                <VictoryLine data={sfmOutData}
+                y="sapFlowIn" />
+                <VictoryLine data={sfmOutDataHourly}
                 x="time"
-                y="value" />
+                y="sapFlowOut" />
             </VictoryChart>
         </View>
     );
