@@ -12,14 +12,6 @@ import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis} from '../Victory';
 
 function Charts ({navigation}) {
 
-    // const data = [
-    //     { quarter: 1, earnings: 13000 },
-    //     { quarter: 2, earnings: 16500 },
-    //     { quarter: 3, earnings: 14250 },
-    //     { quarter: 4, earnings: 19000 }
-    // ];
-
-    // var buff = readFileSync('../data/SFM2I102_sycamore.json');
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
     var sfmInDataHourly = []
     var sfmInDataDaily = []
@@ -47,8 +39,8 @@ function Charts ({navigation}) {
         let timeVal = key.split(",")[1]
 
         if (dateVal == "2/2/2021") {
-            sfmInDataHourly.push({time: timeVal, sapFlowIn: inside})
-            sfmOutDataHourly.push({time: timeVal, sapFlowOut: outside})
+            sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside})
+            sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside})
         }
 
         if (timeVal == "0:00:00") {
@@ -57,20 +49,18 @@ function Charts ({navigation}) {
         }
 
 
-        // sfmInData.push({time: key, sapFlowIn: inside})
-        // sfmOutData.push({time: key, sapFlowOut: outside})
 
         prevIn = inside
         prevOut = outside
     }
 
-    // console.log(sfmInData)
-
+    console.log(sfmInDataHourly)
 
     return (
         <View style={styles.container}>
             <VictoryChart theme={VictoryTheme.material}>
                 <VictoryAxis offsetY={50}
+                tickCount={6}
                 />
                 <VictoryAxis dependentAxis />
                 <VictoryLine data={sfmInDataHourly}
