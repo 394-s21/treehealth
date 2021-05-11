@@ -6,7 +6,7 @@ import { View, StyleSheet } from 'react-native';
 // import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 // import { Foundation } from '@expo/vector-icons';
 // import {Picker} from '@react-native-picker/picker';
-import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis} from '../Victory';
+import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from '../Victory';
 
 
 
@@ -63,10 +63,16 @@ function Charts ({navigation}) {
                 tickCount={6}
                 />
                 <VictoryAxis dependentAxis />
-                <VictoryLine data={sfmInDataHourly}
+                <VictoryLabel x={40} y={20} style={[{ fill: '#00a3de' }]}
+                    text={"Sap Flow In"}
+                />
+                <VictoryLabel x={40} y={35} style={[{ fill: '#7c270b' }]}
+                    text={"Sap Flow Out"}
+                />
+                <VictoryLine data={sfmInDataHourly} style = {{data:{stroke: '#00a3de'}}}
                 x="time"
                 y="sapFlowIn" />
-                <VictoryLine data={sfmOutDataHourly}
+                <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: '#7c270b'}}}
                 x="time"
                 y="sapFlowOut" />
             </VictoryChart>
@@ -79,8 +85,23 @@ const styles = StyleSheet.create({
       flex: 1,
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "#f5fcff"
-    }
+      backgroundColor: "#ffffff"
+    },
+    labelSFI: {
+        fill: '#00a3de',
+        fontFamily: "inherit",
+        fontSize: 12,
+        fontStyle: "italic"
+    },
+    labelSFO: {
+        fill: '#7c270b',
+        fontFamily: "inherit",
+        fontSize: 12,
+        fontStyle: "italic"
+    },
+    
   });
+  
+
 
 export default Charts;

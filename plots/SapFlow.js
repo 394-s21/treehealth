@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 import { Foundation } from '@expo/vector-icons';
 import {Picker} from '@react-native-picker/picker';
+import Charts from './Charts';
 
 
 export default class SapFlow extends React.Component {
@@ -81,7 +82,8 @@ export default class SapFlow extends React.Component {
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
-        <View style={styles.plot}></View>
+        <Charts style = {styles.plot}/>
+        {/*<View style={styles.plot}></View>*/}
         <View style={{textAlign: 'center', marginBottom: 10}}>
           <View style={styles.filterDiv}>
             <Picker

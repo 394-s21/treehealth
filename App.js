@@ -20,10 +20,9 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator style={styles.container}>
-        <Stack.Screen name="Charts" component={Charts} key="charts" />
-        <Stack.Screen name="TreeKeeper" component={Login} key ="login"/>
+        {/*<Stack.Screen name="TreeKeeper" component={Login} key ="login"/>
         <Stack.Screen name="Sign up" component={SignUp} key ="signup"/>
-        <Stack.Screen name="Sign in" component={SignIn} key ="signin"/>
+  <Stack.Screen name="Sign in" component={SignIn} key ="signin"/>*/}
         <Stack.Screen name="My forest" component={MyForest} key ="myforest"/>
         <Stack.Screen name="Add a tree/plot" component={Add} key ="add"/>
         <Stack.Screen name="Add tree" component={AddTree} key ="addtree"/>
