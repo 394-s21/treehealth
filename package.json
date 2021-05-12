@@ -20,6 +20,7 @@
     "@react-navigation/stack": "^5.9.0",
     "expo": "^40.0.1",
     "expo-status-bar": "~1.0.3",
+    "firebase": "7.9.0",
     "papaparse": "^5.3.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
