@@ -1,20 +1,17 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
 import { NavigationContainer, CommonActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 import { Input } from 'react-native-elements';
 
-export default class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-        username: "",
-        password: ""
-    }
-  }
-  render() {
-    return (
+export default function SignIn({ navigation }) {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+
+  console.log(username)
+  console.log(password)
+  return (
     <View style={styles.container}>
       <Text style={styles.logo}>
         <Image style={styles.image} source={require('../logo.png')} />
@@ -22,38 +19,38 @@ export default class SignIn extends React.Component {
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
         <Input
-              style={styles.textInput}
-              onChangeText={text => this.setState({username: text})}
-              value={this.state.username}
-              placeholder = "Username*"
+          style={styles.textInput}
+          onChangeText={setUsername}
+          value={username}
+          placeholder="Username*"
         />
         <Input
-              style={styles.textInput}
-              onChangeText={text => this.setState({password: text})}
-              value={this.state.password}
-              placeholder = "Password*"
-              secureTextEntry={true}
+          style={styles.textInput}
+          onChangeText={setPassword}
+          value={password}
+          placeholder="Password*"
+          secureTextEntry={true}
         />
       </Text>
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>
         <View style={styles.button}>
           <Button style={styles.insidebutton}
-          title="SIGN IN"
-          color="#38735D"
-          onPress={() =>
-          this.props.navigation.dispatch(
-            CommonActions.navigate({
-              name: 'My forest',
-              key: 'my forest from sign up'
-            })
-          )}
+            title="SIGN IN"
+            color="#38735D"
+            onPress={() =>
+              navigation.dispatch(
+                CommonActions.navigate({
+                  name: 'My forest',
+                  key: 'my forest from sign up'
+                })
+              )}
           ></Button>
         </View>
       </View>
     </View>
   );
-}}
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -72,7 +69,7 @@ const styles = StyleSheet.create({
   },
   buttons: {
     flex: 1,
-    flexDirection:"row",
+    flexDirection: "row",
     fontSize: 18,
   },
   button: {
