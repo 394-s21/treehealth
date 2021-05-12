@@ -1,0 +1,66 @@
+name: CI/CD
+
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm ci
+        
+      - name: Install expo-cli
+        run: npm install --global expo-cli
+
+      - name: Build web version
+        run: expo build:web
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: web-build
+          path: web-build/
+          
+  # Run tests and lint
+  # test:
+  #   needs: build
+  
+  deploy:
+    needs: build
+    
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+        
+      - name: Set up Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+        
+      - name: Install Firebase CLI
+        run: npm install --global firebase-tools
+        
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: web-build
+          path: web-build/
+      
+      - name: Deploy to Firebase
+        run: firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
