@@ -38,7 +38,8 @@
     "react-native-tab-view": "^2.15.1",
     "react-native-vector-icons": "8.1.0",
     "react-native-web": "~0.13.12",
-    "victory-native": "^35.3.3"
+    "victory-native": "^35.3.3",
+    "victory-zoom-container": "^35.7.0"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0"

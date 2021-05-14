@@ -7,6 +7,7 @@ import { View, StyleSheet } from 'react-native';
 // import { Foundation } from '@expo/vector-icons';
 // import {Picker} from '@react-native-picker/picker';
 import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from '../Victory';
+import {VictoryZoomContainer} from "victory-zoom-container";
 
 
 export default function Charts ({navigation}) {
@@ -56,7 +57,7 @@ export default function Charts ({navigation}) {
 
     return (
         <View style={styles.container}>
-            <VictoryChart theme={VictoryTheme.material}>
+            <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomContainer/>}>
                 <VictoryAxis offsetY={50}
                 tickCount={6}
                 />
