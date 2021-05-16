@@ -19,10 +19,10 @@ def make_json(csvFilePath, jsonFilePath):
              
             # Assuming a column named 'No' to
             # be the primary key
-            dte = rows['Date '].split('/')
+            dte = rows['Date'].split('/')
             if len(dte) < 3 or dte[2] < '2021':
                 continue
-            key = rows['Date '] + ", " +  rows['Time ']
+            key = rows['Date'] + ", " +  rows['Time']
             data[key] = rows
  
     # Open a json writer, and use the json.dumps()
@@ -34,8 +34,8 @@ def make_json(csvFilePath, jsonFilePath):
  
 # Decide the two file paths according to your
 # computer system
-csvFilePath = './csv/SFM2I102_sycamore.CSV'
-jsonFilePath = './data/SFM2I102_sycamore.json'
+csvFilePath = './data/102_norwayspruce.CSV'
+jsonFilePath = './data/102_norwayspruce.json'
  
 # Call the make_json function
 make_json(csvFilePath, jsonFilePath)

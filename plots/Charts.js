@@ -8,11 +8,17 @@ import { View, StyleSheet } from 'react-native';
 // import {Picker} from '@react-native-picker/picker';
 import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from '../Victory';
 import {VictoryZoomContainer} from "victory-zoom-container";
+import JsonParser from "./JsonParser";
 
 
 export default function Charts ({navigation}) {
 
+    var sfmInDataHourly, sfmInDataDaily = JsonParser('SFM2I102_sycamore.json', "Corrected In (cm/hr)");
+    var sfmOutDataHourly, sfmOutDataDaily = JsonParser('SFM2I102_sycamore.json', "Corrected Out (cm/hr)");
+
+    /*
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
+    var spruceData = require('../data/102_norwayspruce.json');
     var sfmInDataHourly = []
     var sfmInDataDaily = []
     var sfmOutDataHourly = []
@@ -20,6 +26,8 @@ export default function Charts ({navigation}) {
 
     var prevIn = 0
     var prevOut = 0
+
+
 
     for (const [key, value] of Object.entries(rawSFMData)) {
 
@@ -52,6 +60,7 @@ export default function Charts ({navigation}) {
         prevIn = inside
         prevOut = outside
     }
+    */
 
     console.log(sfmInDataHourly)
 
@@ -78,6 +87,7 @@ export default function Charts ({navigation}) {
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
