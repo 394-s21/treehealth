@@ -13,8 +13,14 @@ import JsonParser from "./JsonParser";
 
 export default function Charts ({navigation}) {
 
-    var sfmInDataHourly, sfmInDataDaily = JsonParser('SFM2I102_sycamore.json', "Corrected In (cm/hr)");
-    var sfmOutDataHourly, sfmOutDataDaily = JsonParser('SFM2I102_sycamore.json', "Corrected Out (cm/hr)");
+    var inValues = JsonParser('SFM2I102_sycamore.json', "Corrected In (cm/hr)");
+    var sfmInDataHourly = inValues[0];
+    var sfmInDataDaily = inValues[1];
+
+    var outValues = JsonParser('SFM2I102_sycamore.json', "Corrected Out (cm/hr)");
+
+    var sfmOutDataHourly = outValues[0];
+    var sfmOutDataDaily = outValues[1];
 
     /*
     var rawSFMData = require('../data/SFM2I102_sycamore.json');

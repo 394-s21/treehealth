@@ -32,5 +32,5 @@ export default function JsonParser (fileName, columnName){
 
         prev = curr
     }
-    return DataHourly, DataDaily;
+    return [DataHourly, DataDaily];
 }
