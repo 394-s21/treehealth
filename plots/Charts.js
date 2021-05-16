@@ -68,8 +68,6 @@ export default function Charts ({navigation}) {
     }
     */
 
-    console.log(sfmInDataHourly)
-
     return (
         <View style={styles.container}>
             <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomContainer/>}>
@@ -85,10 +83,10 @@ export default function Charts ({navigation}) {
                 />
                 <VictoryLine data={sfmInDataHourly} style = {{data:{stroke: '#00a3de'}}}
                 x="time"
-                y="sapFlowIn" />
+                y="data" />
                 <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: '#7c270b'}}}
                 x="time"
-                y="sapFlowOut" />
+                y="data" />
             </VictoryChart>
         </View>
     );
@@ -101,5 +99,5 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#ffffff"
-    },    
+    },
   });

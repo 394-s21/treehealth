@@ -15,14 +15,15 @@ export default function JsonParser (fileName, columnName){
         if (value[columnName] != "") {
             var curr = parseFloat(value[columnName])
         } else {
-            var curr = prev
+            // var curr = prev
+            var curr = 0
         }
 
         let dateVal = key.split(",")[0].replace(/\s+/g, '')
         let timeVal = key.split(",")[1].replace(/\s+/g, '')
 
         if (dateVal == "2/2/2021") {
-            DataHourly.push({time: timeVal.substring(1, timeVal.length-3), data: curr})
+            DataHourly.push({time: timeVal.substring(0, timeVal.length-3), data: curr})
         }
 
         if (timeVal == "0:00:00") {
