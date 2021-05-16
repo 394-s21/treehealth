@@ -8,7 +8,9 @@ import { View, StyleSheet } from 'react-native';
 // import {Picker} from '@react-native-picker/picker';
 import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter} from '../Victory';
 import {VictoryZoomContainer} from "victory-zoom-container";
+import { VictoryTooltip, createContainer} from 'victory';
 
+const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts ({navigation}) {
 
@@ -83,9 +85,10 @@ export default function Charts ({navigation}) {
     console.log(sfmInDataHourly)
     console.log(missingIn)
     console.log(missingOut)
+   
     return (
         <View style={styles.container}>
-            <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomContainer/>}>
+            <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomVoronoiContainer/>}>
                 <VictoryAxis offsetY={50}
                 tickCount={6}
                 />
@@ -104,11 +107,18 @@ export default function Charts ({navigation}) {
                 y="sapFlowOut" />
                 <VictoryScatter data={sfmInDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
                 x="time"
-                y="sapFlowIn" />
-               
+                y="sapFlowIn"
+                labels={({datum}) => [`Sap Flow In: ${datum.sapFlowIn} cm/hr`, `Time: ${datum.time}`]} 
+                labelComponent={<VictoryTooltip/>}
+                // size={({ active }) => active ? 5 : 1}
+                />
                 <VictoryScatter data={sfmOutDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
                 x="time"
-                y="sapFlowOut" />
+                y="sapFlowOut"
+                labels={({datum}) => [`Sap Flow Out: ${datum.sapFlowOut} cm/hr`, `Time: ${datum.time}`]} 
+                labelComponent={<VictoryTooltip/>}
+                // size={({ active }) => active ? 5 : 1} 
+                />
                
             </VictoryChart>
         </View>
