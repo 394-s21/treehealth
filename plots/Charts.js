@@ -6,7 +6,7 @@ import { View, StyleSheet } from 'react-native';
 // import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 // import { Foundation } from '@expo/vector-icons';
 // import {Picker} from '@react-native-picker/picker';
-import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel} from '../Victory';
+import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter} from '../Victory';
 import {VictoryZoomContainer} from "victory-zoom-container";
 
 
@@ -20,27 +20,54 @@ export default function Charts ({navigation}) {
 
     var prevIn = 0
     var prevOut = 0
+    var counter = 0
+    var missingIn = []
+    var missingOut = []
+    var inColor = '#00a3de'
+    var outColor = '#7c270b'
+    var inScattSize = 1
+    var outScattSize = 1
 
     for (const [key, value] of Object.entries(rawSFMData)) {
 
         if (value["Corrected In (cm/hr)"] != "") {
             var inside = parseFloat(value["Corrected In (cm/hr)"])
         } else {
-            var inside = prevIn
+            var inside = undefined
+            // missingIn.push(counter)
         }
 
         if (value["Corrected Out (cm/hr)"] != "") {
             var outside = parseFloat(value["Corrected Out (cm/hr)"])
         } else {
-            var outside = prevOut
+            var outside = undefined
+            // missingOut.push(counter)
         }
 
         let dateVal = key.split(",")[0]
         let timeVal = key.split(",")[1]
 
         if (dateVal == "2/2/2021") {
-            sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside})
-            sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside})
+            if (inside == undefined) {
+                missingIn.push(counter)
+                inside = prevIn
+                inColor = 'red'
+                inScattSize = 3
+            }
+            if (outside == undefined) {
+                missingOut.push(counter)
+                outside = prevOut
+                outColor = 'red'
+                outScattSize = 3
+            }
+            sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside, size: inScattSize, color: inColor})
+            sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside, size: outScattSize, color: outColor})
+            
+            inColor = '#00a3de'
+            outColor = '#7c270b'
+            inScattSize = 1
+            outScattSize = 1
+            counter++
         }
 
         if (timeVal == "0:00:00") {
@@ -54,7 +81,8 @@ export default function Charts ({navigation}) {
     }
 
     console.log(sfmInDataHourly)
-
+    console.log(missingIn)
+    console.log(missingOut)
     return (
         <View style={styles.container}>
             <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomContainer/>}>
@@ -68,12 +96,20 @@ export default function Charts ({navigation}) {
                 <VictoryLabel x={40} y={35} style={[{ fill: '#7c270b' }]}
                     text={"Sap Flow Out"}
                 />
-                <VictoryLine data={sfmInDataHourly} style = {{data:{stroke: '#00a3de'}}}
+                <VictoryLine data={sfmInDataHourly} style = {{data: {stroke: '#00a3de'}}}
                 x="time"
                 y="sapFlowIn" />
-                <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: '#7c270b'}}}
+                 <VictoryLine data={sfmOutDataHourly} style = {{data: {stroke: '#7c270b'}}}
                 x="time"
                 y="sapFlowOut" />
+                <VictoryScatter data={sfmInDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
+                x="time"
+                y="sapFlowIn" />
+               
+                <VictoryScatter data={sfmOutDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
+                x="time"
+                y="sapFlowOut" />
+               
             </VictoryChart>
         </View>
     );
