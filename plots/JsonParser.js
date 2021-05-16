@@ -1,4 +1,3 @@
-
 export default function JsonParser (fileName, columnName){
 
     //var rawSFMData = require('../data/SFM2I102_sycamore.json');
@@ -19,8 +18,8 @@ export default function JsonParser (fileName, columnName){
             var curr = prev
         }
 
-        let dateVal = key.split(",")[0]
-        let timeVal = key.split(",")[1]
+        let dateVal = key.split(",")[0].replace(/\s+/g, '')
+        let timeVal = key.split(",")[1].replace(/\s+/g, '')
 
         if (dateVal == "2/2/2021") {
             DataHourly.push({time: timeVal.substring(1, timeVal.length-3), data: curr})
