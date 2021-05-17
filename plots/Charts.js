@@ -9,12 +9,27 @@ import { View, StyleSheet } from 'react-native';
 import {VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter} from '../Victory';
 import {VictoryZoomContainer} from "victory-zoom-container";
 import { VictoryTooltip, createContainer} from 'victory';
+import JsonParser from "./JsonParser";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts ({navigation}) {
 
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
+
+    var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)");
+    var sfmInDataHourly = inValues[0];
+    var sfmInDataDaily = inValues[1];
+
+    var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)");
+    var sfmOutDataHourly = outValues[0];
+    var sfmOutDataDaily = outValues[1];
+
+    // var rawSpruceData = require('../data/102_norwayspruce.json');
+
+    /*
+    var rawSFMData = require('../data/SFM2I102_sycamore.json');
+    var spruceData = require('../data/102_norwayspruce.json');
     var sfmInDataHourly = []
     var sfmInDataDaily = []
     var sfmOutDataHourly = []
@@ -29,6 +44,8 @@ export default function Charts ({navigation}) {
     var outColor = '#7c270b'
     var inScattSize = 1
     var outScattSize = 1
+
+
 
     for (const [key, value] of Object.entries(rawSFMData)) {
 
@@ -64,7 +81,7 @@ export default function Charts ({navigation}) {
             }
             sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside, size: inScattSize, color: inColor})
             sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside, size: outScattSize, color: outColor})
-            
+
             inColor = '#00a3de'
             outColor = '#7c270b'
             inScattSize = 1
@@ -81,11 +98,8 @@ export default function Charts ({navigation}) {
         prevIn = inside
         prevOut = outside
     }
+    */
 
-    console.log(sfmInDataHourly)
-    console.log(missingIn)
-    console.log(missingOut)
-   
     return (
         <View style={styles.container}>
             <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomVoronoiContainer/>}>
@@ -101,29 +115,30 @@ export default function Charts ({navigation}) {
                 />
                 <VictoryLine data={sfmInDataHourly} style = {{data: {stroke: '#00a3de'}}}
                 x="time"
-                y="sapFlowIn" />
-                 <VictoryLine data={sfmOutDataHourly} style = {{data: {stroke: '#7c270b'}}}
+                y="data" />
+                <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: '#7c270b'}}}
                 x="time"
-                y="sapFlowOut" />
+                y="data" />
                 <VictoryScatter data={sfmInDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
                 x="time"
-                y="sapFlowIn"
-                labels={({datum}) => [`Sap Flow In: ${datum.sapFlowIn} cm/hr`, `Time: ${datum.time}`]} 
+                y="data"
+                labels={({datum}) => [`Sap Flow In: ${datum.data} cm/hr`, `Time: ${datum.time}`]}
                 labelComponent={<VictoryTooltip/>}
                 // size={({ active }) => active ? 5 : 1}
                 />
                 <VictoryScatter data={sfmOutDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
                 x="time"
-                y="sapFlowOut"
-                labels={({datum}) => [`Sap Flow Out: ${datum.sapFlowOut} cm/hr`, `Time: ${datum.time}`]} 
+                y="data"
+                labels={({datum}) => [`Sap Flow Out: ${datum.data} cm/hr`, `Time: ${datum.time}`]}
                 labelComponent={<VictoryTooltip/>}
-                // size={({ active }) => active ? 5 : 1} 
+                // size={({ active }) => active ? 5 : 1}
                 />
-               
+
             </VictoryChart>
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     container: {
@@ -131,5 +146,5 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       alignItems: "center",
       backgroundColor: "#ffffff"
-    },    
+    },
   });
