@@ -15,13 +15,19 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts ({navigation}) {
 
+    var chartAspectWidth = 2000; 
+
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
 
-    var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)");
+    var inDistinctColor = "black";
+    var inLineColor = "#00a3de";
+    var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)", inDistinctColor);
     var sfmInDataHourly = inValues[0];
     var sfmInDataDaily = inValues[1];
 
-    var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)");
+    var outDistinctColor = "#00a3de";
+    var outLineColor = "#7c270b";
+    var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)", outDistinctColor);
     var sfmOutDataHourly = outValues[0];
     var sfmOutDataDaily = outValues[1];
 
@@ -102,21 +108,21 @@ export default function Charts ({navigation}) {
 
     return (
         <View style={styles.container}>
-            <VictoryChart theme={VictoryTheme.material} containerComponent = {<VictoryZoomVoronoiContainer/>}>
+            <VictoryChart  width={chartAspectWidth} theme={VictoryTheme.material} containerComponent = {<VictoryZoomVoronoiContainer/>}>
                 <VictoryAxis offsetY={50}
                 tickCount={6}
                 />
                 <VictoryAxis dependentAxis />
-                <VictoryLabel x={40} y={20} style={[{ fill: '#00a3de' }]}
+                <VictoryLabel x={40} y={20} style={[{ fill: inLineColor }]}
                     text={"Sap Flow In"}
                 />
-                <VictoryLabel x={40} y={35} style={[{ fill: '#7c270b' }]}
+                <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                <VictoryLine data={sfmInDataHourly} style = {{data: {stroke: '#00a3de'}}}
+                <VictoryLine data={sfmInDataHourly} style = {{data: {stroke: inLineColor}}}
                 x="time"
                 y="data" />
-                <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: '#7c270b'}}}
+                <VictoryLine data={sfmOutDataHourly} style = {{data:{stroke: outLineColor}}}
                 x="time"
                 y="data" />
                 <VictoryScatter data={sfmInDataHourly} style = {{data: {fill: ({ datum }) => datum.color}}}
