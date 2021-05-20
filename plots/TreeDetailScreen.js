@@ -33,42 +33,25 @@ export default function TreeDetailScreen({ navigation }) {
       timeRange = months
     }
 
-    
-      return (
-        <Picker
-          selectedValue={selectedTime}
-          style={{ height: 45, width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
-          onValueChange={setSelectedTime}
-        >
-          {timeRange.map((item, id) => (
-            <Picker.Item key={item, id} label={item} value={item} />
-          ))}
-        </Picker>
-      )
+
+    return (
+      <Picker
+        selectedValue={selectedTime}
+        style={{ height: 45, width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
+        onValueChange={setSelectedTime}
+      >
+        {timeRange.map((item, id) => (
+          <Picker.Item key={item, id} label={item} value={item} />
+        ))}
+      </Picker>
+    )
   }
 
   return (
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
-        <Charts style={styles.plot} />
-        {/*<View style={styles.plot}></View>*/}
-        <View style={{ textAlign: 'center', marginBottom: 10 }}>
-          <View style={styles.filterDiv}>
-            <Picker
-              selectedValue={selectedView}
-              style={{ height: 45, width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
-              onValueChange={setSelectedView}
-            >
-              <Picker.Item label="daily" value="daily" />
-              <Picker.Item label="weekly" value="weekly" />
-              <Picker.Item label="monthly" value="monthly" />
-            </Picker>
-            <View><DropdownTwo /></View>
-          </View>
-        </View>
-        <Text style={styles.paragraph}>
-        </Text>
+        <Text style={styles.paragraph}></Text>
         <View style={styles.info}>
           <View style={styles.add}>
             <Text> {treeInfo.treeSpecies}</Text>
@@ -84,6 +67,23 @@ export default function TreeDetailScreen({ navigation }) {
             <Text >Average</Text>
           </View>
         </View>
+        {/* <Charts style={styles.plot} /> */}
+        {/*<View style={styles.plot}></View>*/}
+        <View style={{ textAlign: 'center', marginBottom: 10 }}>
+          <View style={styles.filterDiv}>
+            <Picker
+              selectedValue={selectedView}
+              style={{ backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
+              onValueChange={setSelectedView}
+            >
+              <Picker.Item label="daily" value="daily" />
+              <Picker.Item label="weekly" value="weekly" />
+              <Picker.Item label="monthly" value="monthly" />
+            </Picker>
+            <View><DropdownTwo /></View>
+          </View>
+        </View>
+        <Charts style={styles.plot} />
       </Text>
     </View>
   );
