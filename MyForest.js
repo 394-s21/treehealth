@@ -20,7 +20,7 @@ export default function MyForest({navigation}) {
     return (
       <View>
         {list.map((item, id) => (
-          <ListItem key={id} bottomDivider containerStyle={{ backgroundColor: '#EBEBEB', borderRadius: 5 }} onPress={() => navigation.navigate('Sap flow')}>
+          <ListItem key={id} bottomDivider containerStyle={{ backgroundColor: '#EBEBEB', borderRadius: 5 }} onPress={() => navigation.navigate('TreeDetailScreen')}>
             <View style={styles.list}>
               <View style={{ flexDirection: 'row', }}>
                 <FontAwesome name='tree' color="gray" size={20} style={{ marginRight: 10, }} />
