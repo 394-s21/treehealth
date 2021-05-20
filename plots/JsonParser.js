@@ -1,4 +1,4 @@
-export default function JsonParser (rawData, columnName, distictColor){
+export default function JsonParser (rawData, columnName, distictColor, desc, units){
 
     //var rawSFMData = require('../data/SFM2I102_sycamore.json');
     //var spruceData = require('../data/102_norwayspruce.json');
@@ -37,7 +37,9 @@ export default function JsonParser (rawData, columnName, distictColor){
                 time: timeVal.substring(0, timeVal.length-3),
                 data: curr,
                 size: scattSize,
-                color: color
+                color: color,
+                desc: desc,
+                units: units
             })
             // TODO: get color from args
             color = distictColor;
@@ -56,7 +58,9 @@ export default function JsonParser (rawData, columnName, distictColor){
                 time: dateVal,
                 data: curr,
                 size: scattSize,
-                color: color
+                color: color,
+                desc: desc,
+                units: units
             })
             // TODO: get color from args
             color = distictColor;
