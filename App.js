@@ -11,7 +11,7 @@ import SignUp from './login/SignUp';
 import SignIn from './login/SignIn';
 import Add from './add/Add';
 import MyForest from './MyForest';
-import SapFlow from './plots/SapFlow';
+import TreeDetailScreen from './plots/TreeDetailScreen';
 import Charts from './plots/Charts';
 
 const Stack = createStackNavigator();
@@ -20,14 +20,14 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator style={styles.container}>
-        <Stack.Screen name="TreeKeeper" component={Login} key="login" />
+        <Stack.Screen name="Treesearcher" component={Login} key="login" />
         <Stack.Screen name="Sign up" component={SignUp} key="signup" />
         <Stack.Screen name="Sign in" component={SignIn} key="signin" />
         <Stack.Screen name="My forest" component={MyForest} key="myforest" />
         <Stack.Screen name="Add a tree/plot" component={Add} key="add" />
         <Stack.Screen name="Add tree" component={AddTree} key="addtree" />
         <Stack.Screen name="Add plot" component={AddPlot} key="addplot" />
-        <Stack.Screen name="Sap flow" component={SapFlow} key="sapflow" />
+        <Stack.Screen name="Tree Detail" component={TreeDetailScreen} key="treedetail" />
       </Stack.Navigator>
     </NavigationContainer>
   );
