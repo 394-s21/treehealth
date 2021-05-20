@@ -5,7 +5,8 @@ export default function JsonParser (rawData, columnName, distictColor){
 
     var DataHourly = [];
     var DataDaily = [];
-    var missing = [];
+    var missingHourly = [];
+    var missingDaily = [];
     var counter = 0;
     // TODO: get color from args
     var color = distictColor;
@@ -27,7 +28,7 @@ export default function JsonParser (rawData, columnName, distictColor){
 
         if (dateVal == "2/2/2021") {
             if (curr === undefined) {
-                missing.push(counter);
+                missingHourly.push(counter);
                 curr = prev;
                 color = 'red';
                 scattSize = 3;
@@ -45,8 +46,21 @@ export default function JsonParser (rawData, columnName, distictColor){
         }
 
         if (timeVal == "0:00:00") {
-            // TODO: Maybe add the color and scatterplot stuff to daily data?
-            DataDaily.push({time: dateVal, data: curr})
+            if (curr === undefined) {
+                missingDaily.push(counter);
+                curr = prev;
+                color = 'red';
+                scattSize = 3;
+            }
+            DataDaily.push({
+                time: dateVal,
+                data: curr,
+                size: scattSize,
+                color: color
+            })
+            // TODO: get color from args
+            color = distictColor;
+            scattSize = 1;
         }
 
         prev = curr
