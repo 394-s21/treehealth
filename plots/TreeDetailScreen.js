@@ -9,7 +9,7 @@ import { Picker } from '@react-native-picker/picker';
 import Charts from './Charts';
 
 
-export default function SapFlow({ navigation }) {
+export default function TreeDetailScreen({ navigation }) {
   const treeInfo = {
     treeSpecies: 'American Elm',
     treeLocation: '4100 IL-53, Lisle',
