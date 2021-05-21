@@ -8,7 +8,6 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
     var missingHourly = [];
     var missingDaily = [];
     var counter = 0;
-    // TODO: get color from args
     var color = distictColor;
     var scattSize = 1;
 
@@ -41,7 +40,6 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
                 desc: desc,
                 units: units
             })
-            // TODO: get color from args
             color = distictColor;
             scattSize = 1;
             counter++;
@@ -62,7 +60,6 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
                 desc: desc,
                 units: units
             })
-            // TODO: get color from args
             color = distictColor;
             scattSize = 1;
         }

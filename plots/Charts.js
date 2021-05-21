@@ -15,7 +15,7 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts({ navigation }) {
 
-    var chartAspectWidth = 750; 
+    var chartAspectWidth = 750;
 
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
 
@@ -37,79 +37,6 @@ export default function Charts({ navigation }) {
     console.log(combinedSfmDaily)
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
-
-    /*
-    var rawSFMData = require('../data/SFM2I102_sycamore.json');
-    var spruceData = require('../data/102_norwayspruce.json');
-    var sfmInDataHourly = []
-    var sfmInDataDaily = []
-    var sfmOutDataHourly = []
-    var sfmOutDataDaily = []
-    
-    var prevIn = 0
-    var prevOut = 0
-    var counter = 0
-    var missingIn = []
-    var missingOut = []
-    var inColor = '#00a3de'
-    var outColor = '#7c270b'
-    var inScattSize = 1
-    var outScattSize = 1
-    
-    
-    
-    for (const [key, value] of Object.entries(rawSFMData)) {
-    
-        if (value["Corrected In (cm/hr)"] != "") {
-            var inside = parseFloat(value["Corrected In (cm/hr)"])
-        } else {
-            var inside = undefined
-            // missingIn.push(counter)
-        }
-    
-        if (value["Corrected Out (cm/hr)"] != "") {
-            var outside = parseFloat(value["Corrected Out (cm/hr)"])
-        } else {
-            var outside = undefined
-            // missingOut.push(counter)
-        }
-    
-        let dateVal = key.split(",")[0]
-        let timeVal = key.split(",")[1]
-    
-        if (dateVal == "2/2/2021") {
-            if (inside == undefined) {
-                missingIn.push(counter)
-                inside = prevIn
-                inColor = 'red'
-                inScattSize = 3
-            }
-            if (outside == undefined) {
-                missingOut.push(counter)
-                outside = prevOut
-                outColor = 'red'
-                outScattSize = 3
-            }
-            sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside, size: inScattSize, color: inColor})
-            sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside, size: outScattSize, color: outColor})
-    
-            inColor = '#00a3de'
-            outColor = '#7c270b'
-            inScattSize = 1
-            outScattSize = 1
-            counter++
-        }
-    
-        if (timeVal == "0:00:00") {
-            sfmInDataDaily.push({time: dateVal, sapFlowIn: inside})
-            sfmOutDataDaily.push({time: dateVal, sapFlowOut: outside})
-        }
-    
-    
-        prevIn = inside
-        prevOut = outside
-    }
-    */
 
     return (
         <View style={styles.container}>
