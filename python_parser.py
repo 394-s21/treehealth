@@ -18,6 +18,11 @@ def make_json(csvFilePath, jsonFilePath):
         for row in csvReader:
 
             # If 'Date' column exists
+            # May need to manually clear extra top rows and extra whitespace in
+            # column names
+            # May also need to change charset to utf-8 so it can be read
+            # Check this with command "file -I filename"
+            # https://stackoverflow.com/questions/18693139/how-to-convert-csv-files-encoding-to-utf-8
             if ('Date' in row and 'Time' in row):
                 # Drop number of seconds
                 time = ':'.join(row['Time'].split(':')[:2])
@@ -69,4 +74,7 @@ if __name__ == '__main__':
         jsonFilePath = f'./data/{sys.argv[2]}'
 
         # Call the make_json function
+        print('Did you remember to manually clear extra top rows and column' \
+              'name whitespace from the csv?')
+        print('Also make the charset is utf-8!!')
         make_json(csvFilePath, jsonFilePath)
