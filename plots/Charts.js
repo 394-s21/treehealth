@@ -13,10 +13,11 @@ import JsonParser from "./JsonParser";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-export default function Charts({ navigation }) {
+export default function Charts({ navigation, timeRange }) {
 
-    var chartAspectWidth = 750; 
+    var chartAspectWidth = 750;
 
+    // Sap Flow Sycamore
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
 
     var inDistinctColor = "black";
@@ -33,83 +34,40 @@ export default function Charts({ navigation }) {
 
     var combinedSfmHourly = [...sfmInDataHourly, ...sfmOutDataHourly]
     var combinedSfmDaily = [...sfmInDataDaily, ...sfmOutDataDaily]
-    console.log(combinedSfmHourly)
-    console.log(combinedSfmDaily)
+
+    // TODO: Un-hardcode the if statement for daily vs weekly in charts
+    console.log(sfmInDataDaily.slice(sfmInDataDaily.length - 7))
+    console.log(sfmOutDataDaily.slice(sfmOutDataDaily.length - 7))
+    console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
+
+    // Environment
+    var rawEnvData = require('../data/forestryplot_spruce_met.json')
+
+    // VPD
+    var vpdDistinctColor = "blue";
+    var vpdLineColor = "#00a3de";
+    // TODO: What unit of measure is VPD?
+    var vpdValues = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
+    var vpdDataHourly = vpdValues[0];
+    var vpdDataDaily = vpdValues[1];
+
+    // Temp
+    var tempDistinctColor = "blue";
+    var tempLineColor = "#00a3de";
+    var tempValues = JsonParser(rawEnvData, "Temp", tempDistinctColor, "Temp", "°C");
+    var tempDataHourly = tempValues[0];
+    var tempDataDaily = tempValues[1];
+
+    // Rain
+    var rainDistinctColor = "blue";
+    var rainLineColor = "#00a3de";
+    // TODO: What unit of measure is Rain?
+    var rainValues = JsonParser(rawEnvData, "Rain", rainDistinctColor, "Rain", "mm?");
+    var rainDataHourly = rainValues[0];
+    var rainDataDaily = rainValues[1];
+
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
-
-    /*
-    var rawSFMData = require('../data/SFM2I102_sycamore.json');
-    var spruceData = require('../data/102_norwayspruce.json');
-    var sfmInDataHourly = []
-    var sfmInDataDaily = []
-    var sfmOutDataHourly = []
-    var sfmOutDataDaily = []
-    
-    var prevIn = 0
-    var prevOut = 0
-    var counter = 0
-    var missingIn = []
-    var missingOut = []
-    var inColor = '#00a3de'
-    var outColor = '#7c270b'
-    var inScattSize = 1
-    var outScattSize = 1
-    
-    
-    
-    for (const [key, value] of Object.entries(rawSFMData)) {
-    
-        if (value["Corrected In (cm/hr)"] != "") {
-            var inside = parseFloat(value["Corrected In (cm/hr)"])
-        } else {
-            var inside = undefined
-            // missingIn.push(counter)
-        }
-    
-        if (value["Corrected Out (cm/hr)"] != "") {
-            var outside = parseFloat(value["Corrected Out (cm/hr)"])
-        } else {
-            var outside = undefined
-            // missingOut.push(counter)
-        }
-    
-        let dateVal = key.split(",")[0]
-        let timeVal = key.split(",")[1]
-    
-        if (dateVal == "2/2/2021") {
-            if (inside == undefined) {
-                missingIn.push(counter)
-                inside = prevIn
-                inColor = 'red'
-                inScattSize = 3
-            }
-            if (outside == undefined) {
-                missingOut.push(counter)
-                outside = prevOut
-                outColor = 'red'
-                outScattSize = 3
-            }
-            sfmInDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowIn: inside, size: inScattSize, color: inColor})
-            sfmOutDataHourly.push({time: timeVal.substring(1, timeVal.length-3), sapFlowOut: outside, size: outScattSize, color: outColor})
-    
-            inColor = '#00a3de'
-            outColor = '#7c270b'
-            inScattSize = 1
-            outScattSize = 1
-            counter++
-        }
-    
-        if (timeVal == "0:00:00") {
-            sfmInDataDaily.push({time: dateVal, sapFlowIn: inside})
-            sfmOutDataDaily.push({time: dateVal, sapFlowOut: outside})
-        }
-    
-    
-        prevIn = inside
-        prevOut = outside
-    }
-    */
 
     return (
         <View style={styles.container}>
@@ -125,13 +83,70 @@ export default function Charts({ navigation }) {
                 <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                <VictoryLine data={sfmInDataHourly} style={{ data: { stroke: inLineColor } }}
+                <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
                     x="time"
                     y="data" />
-                <VictoryLine data={sfmOutDataHourly} style={{ data: { stroke: outLineColor } }}
+                <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
                     x="time"
                     y="data" />
-                <VictoryScatter data={combinedSfmHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* VPD graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
+                    text={"VPD"}
+                />
+                <VictoryLine data={vpdDataHourly} style={{ data: { stroke: vpdLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={vpdDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* Temp graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: tempLineColor }]}
+                    text={"Temp"}
+                />
+                <VictoryLine data={tempDataHourly} style={{ data: { stroke: tempLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={tempDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* Rain graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: rainLineColor }]}
+                    text={"Rain"}
+                />
+                <VictoryLine data={rainDataHourly} style={{ data: { stroke: rainLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={rainDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
