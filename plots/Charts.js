@@ -21,13 +21,13 @@ export default function Charts({ navigation }) {
 
     var inDistinctColor = "black";
     var inLineColor = "#00a3de";
-    var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)", inDistinctColor);
+    var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)", inDistinctColor, "Sap Flow In", "cm/hr");
     var sfmInDataHourly = inValues[0];
     var sfmInDataDaily = inValues[1];
 
     var outDistinctColor = "#00a3de";
     var outLineColor = "#7c270b";
-    var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)", outDistinctColor);
+    var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)", outDistinctColor, "Sap Flow Out", "cm/hr");
     var sfmOutDataHourly = outValues[0];
     var sfmOutDataDaily = outValues[1];
 
@@ -134,7 +134,7 @@ export default function Charts({ navigation }) {
                 <VictoryScatter data={combinedSfmHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
-                    labels={({ datum }) => [`Sap Flow Out: ${datum.data} cm/hr`, `Time: ${datum.time}`]}
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
                     labelComponent={<VictoryTooltip />}
                 />
             </VictoryChart>
