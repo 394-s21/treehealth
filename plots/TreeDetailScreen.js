@@ -83,7 +83,7 @@ export default function TreeDetailScreen({ navigation }) {
             <View><DropdownTwo /></View>
           </View>
         </View>
-        <Charts style={styles.plot} />
+        <Charts style={styles.plot} timeRange={selectedView}/>
       </Text>
     </View>
   );

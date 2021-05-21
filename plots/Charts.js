@@ -13,7 +13,7 @@ import JsonParser from "./JsonParser";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-export default function Charts({ navigation }) {
+export default function Charts({ navigation, timeRange }) {
 
     var chartAspectWidth = 750;
 
@@ -34,8 +34,11 @@ export default function Charts({ navigation }) {
 
     var combinedSfmHourly = [...sfmInDataHourly, ...sfmOutDataHourly]
     var combinedSfmDaily = [...sfmInDataDaily, ...sfmOutDataDaily]
-    console.log(combinedSfmHourly)
-    console.log(combinedSfmDaily)
+
+    // TODO: Un-hardcode the if statement for daily vs weekly in charts
+    console.log(sfmInDataDaily.slice(sfmInDataDaily.length - 7))
+    console.log(sfmOutDataDaily.slice(sfmOutDataDaily.length - 7))
+    console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
 
     // Environment
     var rawEnvData = require('../data/forestryplot_spruce_met.json')
@@ -47,8 +50,6 @@ export default function Charts({ navigation }) {
     var vpdValues = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
     var vpdDataHourly = vpdValues[0];
     var vpdDataDaily = vpdValues[1];
-    console.log(vpdDataHourly)
-    console.log(vpdDataDaily)
 
     // Temp
     var tempDistinctColor = "blue";
@@ -56,8 +57,6 @@ export default function Charts({ navigation }) {
     var tempValues = JsonParser(rawEnvData, "Temp", tempDistinctColor, "Temp", "°C");
     var tempDataHourly = tempValues[0];
     var tempDataDaily = tempValues[1];
-    console.log(tempDataHourly)
-    console.log(tempDataDaily)
 
     // Rain
     var rainDistinctColor = "blue";
@@ -66,8 +65,7 @@ export default function Charts({ navigation }) {
     var rainValues = JsonParser(rawEnvData, "Rain", rainDistinctColor, "Rain", "mm?");
     var rainDataHourly = rainValues[0];
     var rainDataDaily = rainValues[1];
-    console.log(rainDataHourly)
-    console.log(rainDataDaily)
+
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
 
@@ -85,13 +83,13 @@ export default function Charts({ navigation }) {
                 <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                <VictoryLine data={sfmInDataHourly} style={{ data: { stroke: inLineColor } }}
+                <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
                     x="time"
                     y="data" />
-                <VictoryLine data={sfmOutDataHourly} style={{ data: { stroke: outLineColor } }}
+                <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
                     x="time"
                     y="data" />
-                <VictoryScatter data={combinedSfmHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
