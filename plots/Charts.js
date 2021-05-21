@@ -17,6 +17,7 @@ export default function Charts({ navigation }) {
 
     var chartAspectWidth = 750;
 
+    // Sap Flow Sycamore
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
 
     var inDistinctColor = "black";
@@ -35,6 +36,38 @@ export default function Charts({ navigation }) {
     var combinedSfmDaily = [...sfmInDataDaily, ...sfmOutDataDaily]
     console.log(combinedSfmHourly)
     console.log(combinedSfmDaily)
+
+    // Environment
+    var rawEnvData = require('../data/forestryplot_spruce_met.json')
+
+    // VPD
+    var vpdDistinctColor = "blue";
+    var vpdLineColor = "#00a3de";
+    // TODO: What unit of measure is VPD?
+    var vpdValues = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
+    var vpdDataHourly = vpdValues[0];
+    var vpdDataDaily = vpdValues[1];
+    console.log(vpdDataHourly)
+    console.log(vpdDataDaily)
+
+    // Temp
+    var tempDistinctColor = "blue";
+    var tempLineColor = "#00a3de";
+    var tempValues = JsonParser(rawEnvData, "Temp", tempDistinctColor, "Temp", "°C");
+    var tempDataHourly = tempValues[0];
+    var tempDataDaily = tempValues[1];
+    console.log(tempDataHourly)
+    console.log(tempDataDaily)
+
+    // Rain
+    var rainDistinctColor = "blue";
+    var rainLineColor = "#00a3de";
+    // TODO: What unit of measure is Rain?
+    var rainValues = JsonParser(rawEnvData, "Rain", rainDistinctColor, "Rain", "mm?");
+    var rainDataHourly = rainValues[0];
+    var rainDataDaily = rainValues[1];
+    console.log(rainDataHourly)
+    console.log(rainDataDaily)
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
 
@@ -59,6 +92,63 @@ export default function Charts({ navigation }) {
                     x="time"
                     y="data" />
                 <VictoryScatter data={combinedSfmHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* VPD graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
+                    text={"VPD"}
+                />
+                <VictoryLine data={vpdDataHourly} style={{ data: { stroke: vpdLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={vpdDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* Temp graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: tempLineColor }]}
+                    text={"Temp"}
+                />
+                <VictoryLine data={tempDataHourly} style={{ data: { stroke: tempLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={tempDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
+                    x="time"
+                    y="data"
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
+                    labelComponent={<VictoryTooltip />}
+                />
+            </VictoryChart>
+            {/* Rain graph */}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+                <VictoryAxis offsetY={50}
+                    tickCount={6}
+                />
+                <VictoryAxis dependentAxis />
+                <VictoryLabel x={40} y={20} style={[{ fill: rainLineColor }]}
+                    text={"Rain"}
+                />
+                <VictoryLine data={rainDataHourly} style={{ data: { stroke: rainLineColor } }}
+                    x="time"
+                    y="data" />
+                <VictoryScatter data={rainDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
