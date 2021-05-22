@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 // import { ListItem, Icon } from 'react-native-elements'
 // import { NavigationContainer, CommonActions } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
-// import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 // import { Foundation } from '@expo/vector-icons';
 // import {Picker} from '@react-native-picker/picker';
-import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter, VictoryZoomContainer, createContainer, VictoryTooltip} from '../Victory';
+import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter, VictoryZoomContainer, VictoryTooltip} from '../Victory';
+import {createContainer} from '../Victory';
+// import {createContainer} from '../Victory.web';
 // import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
 
@@ -14,7 +16,7 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts({ navigation, timeRange }) {
 
-    var chartAspectWidth = 750;
+    var chartAspectWidth = vw(95);
 
     // Sap Flow Sycamore
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
@@ -92,7 +94,7 @@ export default function Charts({ navigation, timeRange }) {
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip renderInPortal={false} />}
                 />
             </VictoryChart>
             {/* VPD graph */}
@@ -111,7 +113,7 @@ export default function Charts({ navigation, timeRange }) {
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip renderInPortal={false} />}
                 />
             </VictoryChart>
             {/* Temp graph */}
@@ -130,7 +132,7 @@ export default function Charts({ navigation, timeRange }) {
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip renderInPortal={false} />}
                 />
             </VictoryChart>
             {/* Rain graph */}
@@ -149,7 +151,7 @@ export default function Charts({ navigation, timeRange }) {
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip renderInPortal={false} />}
                 />
             </VictoryChart>
             {/* Daily graph */}
@@ -187,6 +189,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: "#ffffff"
+        backgroundColor: "#ffffff",
+        paddingLeft: Platform.OS === "android" ? vw(50) : 0
     },
 });
