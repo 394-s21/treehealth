@@ -190,6 +190,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "#ffffff",
-        paddingLeft: Platform.OS === "android" ? vw(50) : 0
+        paddingLeft: Platform.OS === "android" ? vw(50) : 0,
+        paddingRight: Platform.OS === "ios" ? vw(50) : 0
     },
 });
