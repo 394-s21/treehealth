@@ -6,9 +6,8 @@ import { View, StyleSheet } from 'react-native';
 // import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
 // import { Foundation } from '@expo/vector-icons';
 // import {Picker} from '@react-native-picker/picker';
-import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter } from '../Victory';
-import { VictoryZoomContainer } from "victory-zoom-container";
-import { VictoryTooltip, createContainer } from 'victory';
+import { VictoryLine, VictoryChart, VictoryTheme, VictoryAxis, VictoryLabel, VictoryScatter, VictoryZoomContainer, createContainer, VictoryTooltip} from '../Victory';
+// import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");

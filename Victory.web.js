@@ -7,3 +7,4 @@ export const VictoryScatter = require('victory').VictoryScatter;
 export const VictoryTheme = require('victory').VictoryTheme;
 export const VictoryLine = require('victory').VictoryLine;
 export const VictoryAxis = require('victory').VictoryAxis;
+export const VictoryZoomContainer = require('victory').VictoryZoomContainer;
