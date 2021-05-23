@@ -9,6 +9,8 @@ import { Picker } from '@react-native-picker/picker';
 import Charts from './Charts';
 
 
+
+
 export default function TreeDetailScreen({ navigation }) {
   const treeInfo = {
     treeSpecies: 'American Elm',
@@ -22,6 +24,8 @@ export default function TreeDetailScreen({ navigation }) {
   const days = ['Mar 1', 'Mar 2', 'Mar 3', 'Mar 4', 'Mar 5']
   const weeks = ['Feb 28 - Mar 6', 'Mar 7-13', 'Mar 14-20']
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+  
 
   function DropdownTwo() {
     var timeRange = days
@@ -83,7 +87,9 @@ export default function TreeDetailScreen({ navigation }) {
             <View><DropdownTwo /></View>
           </View>
         </View>
-        <Charts timeRange={selectedView}/>
+        
+        
+        <Charts timeRange={selectedView} spiState={checkboxSPIState} spoState={checkboxSPOState} />
       </Text>
     </ScrollView>
   );

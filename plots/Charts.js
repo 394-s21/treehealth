@@ -11,10 +11,11 @@ import {createContainer} from '../Victory';
 // import {createContainer} from '../Victory.web';
 // import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-export default function Charts({ navigation, timeRange }) {
+export default function Charts({ navigation, timeRange, spiState, spoState }) {
 
     var chartAspectWidth = vw(95);
 
@@ -67,12 +68,32 @@ export default function Charts({ navigation, timeRange }) {
     var rainDataHourly = rainValues[0];
     var rainDataDaily = rainValues[1];
 
+    const [checkboxSPIState, setSPICheckboxState] = useState(true);
+    const [checkboxSPOState, setSPOCheckboxState] = useState(true);
+
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
+
 
     return (
         <View style={styles.container}>
             {/* Hourly graph */}
+            <BouncyCheckbox
+                size={25}
+                fillColor="blue"
+                unfillColor="#FFFFFF"
+                text="Sap Flow In"
+                iconStyle={{ borderColor: "blue" }}
+                onPress={() => setSPICheckboxState(!checkboxSPIState)}
+                />
+                <BouncyCheckbox
+                size={25}
+                fillColor="red"
+                unfillColor="#FFFFFF"
+                text="Sap Flow Out"
+                iconStyle={{ borderColor: "red" }}
+                onPress={() => setSPOCheckboxState(!checkboxSPOState)}
+                />
             <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
                 <VictoryAxis offsetY={50}
                     tickCount={6}
@@ -84,12 +105,12 @@ export default function Charts({ navigation, timeRange }) {
                 <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
+                {spiState && <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
                     x="time"
-                    y="data" />
-                <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
+                    y="data" />}
+                {spoState && <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
                     x="time"
-                    y="data" />
+                    y="data" />}
                 <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
