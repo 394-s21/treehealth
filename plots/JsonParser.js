@@ -38,6 +38,7 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
             }
             DataHourly.push({
                 time: timeVal,
+                time2: dateVal + " " + timeVal,
                 data: curr,
                 size: scattSize,
                 color: color,
@@ -58,6 +59,7 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
             }
             DataDaily.push({
                 time: dateVal,
+                time2: dateVal + " " + timeVal,
                 data: curr,
                 size: scattSize,
                 color: color,

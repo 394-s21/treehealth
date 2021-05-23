@@ -16,6 +16,13 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 export default function Charts({ navigation, timeRange }) {
 
     var chartAspectWidth = 750;
+    
+    // Amount of data points for a day
+    const dailyLimit = 120;
+    const weeklyLimit = 840;
+
+    // Start Index for a day
+    var startIndex = 0;
 
     // Sap Flow Sycamore
     var rawSFMData = require('../data/SFM2I102_sycamore.json');
@@ -66,15 +73,37 @@ export default function Charts({ navigation, timeRange }) {
     var rainDataHourly = rainValues[0];
     var rainDataDaily = rainValues[1];
 
+    const [tickSapFlow, setTickSapFlow] = useState('daily');
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
+
+    function handleTick(t) {
+        //console.log(t);
+        if(tickSapFlow === "daily") return `${t}`;
+        return `${t.substring(0, 5)}`
+    }
+
+    function determineTimeRange(domain) {
+        var points = domain["x"][1] - domain["x"][0];
+        if(points > dailyLimit && points < weeklyLimit) {
+            return "weekly";
+        }
+        return "daily";
+    }
 
     return (
         <View style={styles.container}>
             {/* Hourly graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
-                <VictoryAxis offsetY={50}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} 
+                containerComponent={
+                    <VictoryZoomVoronoiContainer 
+                        responsive={false} 
+                        zoomDomain={{x:[startIndex, dailyLimit]}} 
+                        onZoomDomainChange={(domain) => setTickSapFlow(determineTimeRange(domain)) }/>}>
+                <VictoryAxis 
+                    offsetY={50}
                     tickCount={6}
+                    tickFormat={(t) => handleTick(t)}
                 />
                 <VictoryAxis dependentAxis />
                 <VictoryLabel x={40} y={20} style={[{ fill: inLineColor }]}
@@ -84,19 +113,19 @@ export default function Charts({ navigation, timeRange }) {
                     text={"Sap Flow Out"}
                 />
                 <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
-                    x="time"
+                    x="time2"
                     y="data" />
                 <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
-                    x="time"
+                    x="time2"
                     y="data" />
                 <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}
-                    x="time"
+                    x="time2"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
                     labelComponent={<VictoryTooltip />}
                 />
             </VictoryChart>
-            {/* VPD graph */}
+            {/* VPD graph
             <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
                 <VictoryAxis offsetY={50}
                     tickCount={6}
@@ -116,7 +145,7 @@ export default function Charts({ navigation, timeRange }) {
                 />
             </VictoryChart>
             {/* Temp graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+            {/* <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
                 <VictoryAxis offsetY={50}
                     tickCount={6}
                 />
@@ -133,9 +162,9 @@ export default function Charts({ navigation, timeRange }) {
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
                     labelComponent={<VictoryTooltip />}
                 />
-            </VictoryChart>
+            </VictoryChart> */}
             {/* Rain graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+            {/* <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
                 <VictoryAxis offsetY={50}
                     tickCount={6}
                 />
@@ -152,7 +181,7 @@ export default function Charts({ navigation, timeRange }) {
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
                     labelComponent={<VictoryTooltip />}
                 />
-            </VictoryChart>
+            </VictoryChart> */}
             {/* Daily graph */}
             {/* <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
                 <VictoryAxis offsetY={50}
