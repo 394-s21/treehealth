@@ -25,6 +25,7 @@
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+    "react-native-bouncy-checkbox": "^2.1.1",
     "react-native-date-picker": "*",
     "react-native-datepicker": "*",
     "react-native-elements": "*",

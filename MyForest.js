@@ -70,7 +70,7 @@ export default function MyForest({navigation}) {
         </SafeAreaView>
 
       </Text>
-      <Text style={{ textAlign: 'center', flex: 7 }}>
+      <Text style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', flex: 7}}>
         <TouchableHighlight onPress={() =>
           navigation.dispatch(
             CommonActions.navigate({
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   add: {
     alignItems: "center",
+    justifyContent: "center",
     fontSize: 14,
     backgroundColor: "#38735D",
     color: 'white',
