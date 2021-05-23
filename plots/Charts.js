@@ -12,6 +12,7 @@ import {createContainer} from '../Victory';
 // import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import LineChart from './LineChart';
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
@@ -36,7 +37,7 @@ export default function Charts({ navigation, timeRange}) {
 
     var [combinedSfmHourly, setCombinedSfmHourly] = useState([...sfmInDataHourly, ...sfmOutDataHourly])
     var [combinedSfmDaily, setCombinedSfmDaily] = useState([...sfmInDataDaily, ...sfmOutDataDaily])
-    
+
 
     // TODO: Un-hardcode the if statement for daily vs weekly in charts
     console.log(sfmInDataDaily.slice(sfmInDataDaily.length - 7))
@@ -71,7 +72,7 @@ export default function Charts({ navigation, timeRange}) {
 
     const [checkboxSPIState, setSPICheckboxState] = useState(true);
     const [checkboxSPOState, setSPOCheckboxState] = useState(true);
-    
+
     useEffect(() => {
         if (checkboxSPIState && checkboxSPOState) {
             setCombinedSfmHourly([...sfmInDataHourly, ...sfmOutDataHourly])
@@ -135,87 +136,29 @@ export default function Charts({ navigation, timeRange}) {
                 />
             </VictoryChart>
             {/* VPD graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
-                <VictoryAxis offsetY={50}
-                    tickCount={6}
-                />
-                <VictoryAxis dependentAxis />
-                <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
-                    text={"VPD"}
-                />
-                <VictoryLine data={vpdDataHourly} style={{ data: { stroke: vpdLineColor } }}
-                    x="time"
-                    y="data" />
-                <VictoryScatter data={vpdDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
-                    x="time"
-                    y="data"
-                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip renderInPortal={false} />}
-                />
-            </VictoryChart>
+            <LineChart
+                label={'VPD'}
+                hourlyData={vpdDataHourly}
+                dailyData={vpdDataDaily}
+                lineColor={vpdLineColor}
+                timeRange={timeRange}
+            />
             {/* Temp graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
-                <VictoryAxis offsetY={50}
-                    tickCount={6}
-                />
-                <VictoryAxis dependentAxis />
-                <VictoryLabel x={40} y={20} style={[{ fill: tempLineColor }]}
-                    text={"Temp"}
-                />
-                <VictoryLine data={tempDataHourly} style={{ data: { stroke: tempLineColor } }}
-                    x="time"
-                    y="data" />
-                <VictoryScatter data={tempDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
-                    x="time"
-                    y="data"
-                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip renderInPortal={false} />}
-                />
-            </VictoryChart>
+            <LineChart
+                label={'Temp'}
+                hourlyData={tempDataHourly}
+                dailyData={tempDataDaily}
+                lineColor={tempLineColor}
+                timeRange={timeRange}
+            />
             {/* Rain graph */}
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
-                <VictoryAxis offsetY={50}
-                    tickCount={6}
-                />
-                <VictoryAxis dependentAxis />
-                <VictoryLabel x={40} y={20} style={[{ fill: rainLineColor }]}
-                    text={"Rain"}
-                />
-                <VictoryLine data={rainDataHourly} style={{ data: { stroke: rainLineColor } }}
-                    x="time"
-                    y="data" />
-                <VictoryScatter data={rainDataHourly} style={{ data: { fill: ({ datum }) => datum.color } }}
-                    x="time"
-                    y="data"
-                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip renderInPortal={false} />}
-                />
-            </VictoryChart>
-            {/* Daily graph */}
-            {/* <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
-                <VictoryAxis offsetY={50}
-                    tickCount={6}
-                />
-                <VictoryAxis dependentAxis />
-                <VictoryLabel x={40} y={20} style={[{ fill: inLineColor }]}
-                    text={"Sap Flow In"}
-                />
-                <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
-                    text={"Sap Flow Out"}
-                />
-                <VictoryLine data={sfmInDataDaily} style={{ data: { stroke: inLineColor } }}
-                    x="time"
-                    y="data" />
-                <VictoryLine data={sfmOutDataDaily} style={{ data: { stroke: outLineColor } }}
-                    x="time"
-                    y="data" />
-                <VictoryScatter data={combinedSfmDaily} style={{ data: { fill: ({ datum }) => datum.color } }}
-                    x="time"
-                    y="data"
-                    labels={({ datum }) => [`Sap Flow Out: ${datum.data} cm/hr`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip />}
-                />
-            </VictoryChart> */}
+            <LineChart
+                label={'Rain'}
+                hourlyData={rainDataHourly}
+                dailyData={rainDataDaily}
+                lineColor={rainLineColor}
+                timeRange={timeRange}
+            />
         </View>
     );
 }
