@@ -15,7 +15,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-export default function Charts({ navigation, timeRange, spiState, spoState }) {
+export default function Charts({ navigation, timeRange}) {
 
     var chartAspectWidth = vw(95);
 
@@ -34,8 +34,9 @@ export default function Charts({ navigation, timeRange, spiState, spoState }) {
     var sfmOutDataHourly = outValues[0];
     var sfmOutDataDaily = outValues[1];
 
-    var combinedSfmHourly = [...sfmInDataHourly, ...sfmOutDataHourly]
-    var combinedSfmDaily = [...sfmInDataDaily, ...sfmOutDataDaily]
+    var [combinedSfmHourly, setCombinedSfmHourly] = useState([...sfmInDataHourly, ...sfmOutDataHourly])
+    var [combinedSfmDaily, setCombinedSfmDaily] = useState([...sfmInDataDaily, ...sfmOutDataDaily])
+    
 
     // TODO: Un-hardcode the if statement for daily vs weekly in charts
     console.log(sfmInDataDaily.slice(sfmInDataDaily.length - 7))
@@ -70,7 +71,22 @@ export default function Charts({ navigation, timeRange, spiState, spoState }) {
 
     const [checkboxSPIState, setSPICheckboxState] = useState(true);
     const [checkboxSPOState, setSPOCheckboxState] = useState(true);
-
+    
+    useEffect(() => {
+        if (checkboxSPIState && checkboxSPOState) {
+            setCombinedSfmHourly([...sfmInDataHourly, ...sfmOutDataHourly])
+            setCombinedSfmDaily([...sfmInDataDaily, ...sfmOutDataDaily])
+        } else if (checkboxSPOState) {
+            setCombinedSfmDaily(sfmOutDataDaily)
+            setCombinedSfmHourly(sfmOutDataHourly)
+        } else if (checkboxSPIState) {
+            setCombinedSfmDaily(sfmInDataDaily)
+            setCombinedSfmHourly(sfmInDataHourly)
+        } else {
+            setCombinedSfmDaily([])
+            setCombinedSfmHourly([])
+        }
+    },[checkboxSPIState, checkboxSPOState]);
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
 
@@ -105,10 +121,10 @@ export default function Charts({ navigation, timeRange, spiState, spoState }) {
                 <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                {spiState && <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
+                {checkboxSPIState && <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
                     x="time"
                     y="data" />}
-                {spoState && <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
+                {checkboxSPOState && <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
                     x="time"
                     y="data" />}
                 <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}

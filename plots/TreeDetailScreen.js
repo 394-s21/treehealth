@@ -89,7 +89,7 @@ export default function TreeDetailScreen({ navigation }) {
         </View>
         
         
-        <Charts timeRange={selectedView} spiState={checkboxSPIState} spoState={checkboxSPOState} />
+        <Charts timeRange={selectedView} />
       </Text>
     </ScrollView>
   );
