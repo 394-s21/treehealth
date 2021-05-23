@@ -48,11 +48,7 @@ export default function Charts({ navigation, timeRange }) {
     var rainDataHourly = rainValues[0];
     var rainDataDaily = rainValues[1];
 
-
     // var rawSpruceData = require('../data/102_norwayspruce.json');
-
-
-
 
     return (
         <View style={styles.container}>
