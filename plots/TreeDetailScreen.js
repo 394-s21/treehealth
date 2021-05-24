@@ -89,7 +89,7 @@ export default function TreeDetailScreen({ navigation }) {
         </View>
         
         
-        <Charts timeRange={selectedView} />
+        <Charts timeRange={selectedView}/>
       </Text>
     </ScrollView>
   );

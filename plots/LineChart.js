@@ -11,7 +11,7 @@ import {
     VictoryTooltip
 } from '../Victory';
 
-export default function LineChart({label, hourlyData, dailyData, lineColor, timeRange}) {
+export default function LineChart({ label, hourlyData, dailyData, lineColor, timeRange, displayed }) {
     const chartAspectWidth = vw(95);
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
@@ -23,7 +23,7 @@ export default function LineChart({label, hourlyData, dailyData, lineColor, time
     }
 
     return (
-        <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false}/>}>
+        <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false} />}>
             <VictoryAxis offsetY={50}
                 tickCount={6}
             />
@@ -41,5 +41,7 @@ export default function LineChart({label, hourlyData, dailyData, lineColor, time
                 labelComponent={<VictoryTooltip renderInPortal={false} />}
             />
         </VictoryChart>
+
     );
+
 }
