@@ -15,7 +15,8 @@ import { Line } from 'react-native-svg';
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import LineChart from './LineChart';
 
-export default function Environment({timeRange}) {
+export default function Environment({ timeRange }) {
+    // Environment
     // Environment
     var rawEnvData = require('../data/forestryplot_spruce_met.json')
 
@@ -23,24 +24,18 @@ export default function Environment({timeRange}) {
     var vpdDistinctColor = "blue";
     var vpdLineColor = "#00a3de";
     // TODO: What unit of measure is VPD?
-    var vpdValues = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
-    var vpdDataHourly = vpdValues[0];
-    var vpdDataDaily = vpdValues[1];
+    var vpdData = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
 
     // Temp
     var tempDistinctColor = "blue";
     var tempLineColor = "#00a3de";
-    var tempValues = JsonParser(rawEnvData, "Temp", tempDistinctColor, "Temp", "°C");
-    var tempDataHourly = tempValues[0];
-    var tempDataDaily = tempValues[1];
+    var tempData = JsonParser(rawEnvData, "Temp", tempDistinctColor, "Temp", "°C");
 
     // Rain
     var rainDistinctColor = "blue";
     var rainLineColor = "#00a3de";
     // TODO: What unit of measure is Rain?
-    var rainValues = JsonParser(rawEnvData, "Rain", rainDistinctColor, "Rain", "mm?");
-    var rainDataHourly = rainValues[0];
-    var rainDataDaily = rainValues[1];
+    var rainData = JsonParser(rawEnvData, "Rain", rainDistinctColor, "Rain", "mm?");
 
     // var rawSpruceData = require('../data/102_norwayspruce.json');
 
@@ -90,24 +85,21 @@ export default function Environment({timeRange}) {
             {/* VPD graph */}
             {checkboxVpd && <LineChart
                 label={'VPD'}
-                hourlyData={vpdDataHourly}
-                dailyData={vpdDataDaily}
+                data={vpdData}
                 lineColor={vpdLineColor}
                 timeRange={timeRange}
             />}
             {/* Temp graph */}
             {checkboxTemp && <LineChart
                 label={'Temperature'}
-                hourlyData={tempDataHourly}
-                dailyData={tempDataDaily}
+                data={tempData}
                 lineColor={tempLineColor}
                 timeRange={timeRange}
             />}
             {/* Precipitation graph */}
             {checkboxPrecipitation && <LineChart
                 label={'Precipitation'}
-                hourlyData={rainDataHourly}
-                dailyData={rainDataDaily}
+                data={rainData}
                 lineColor={rainLineColor}
                 timeRange={timeRange}
             />}

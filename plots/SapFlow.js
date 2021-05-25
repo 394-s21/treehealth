@@ -16,49 +16,89 @@ import { Line } from 'react-native-svg';
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
-export default function SapFlow({timeRange}) {
-        // Sap Flow Sycamore
-        var rawSFMData = require('../data/SFM2I102_sycamore.json');
+function handleTick(t, tickType) {
+    if (tickType === "daily") return `${getTimePortion(t, "|", 0)}`;
+    else if (tickType === "weekly") return `${getTimePortion(t, "|", 1)}`;
+    else if (tickType === "monthly") return `${getTimePortion(t, "|", 2)}`;
+    else if (tickType === "yearly") return `${getTimePortion(t, "|", 3)}`;
+    else return "error";
+}
 
-        var inDistinctColor = "black";
-        var inLineColor = "#00a3de";
-        var inValues = JsonParser(rawSFMData, "Corrected In (cm/hr)", inDistinctColor, "Sap Flow In", "cm/hr");
-        var sfmInDataHourly = inValues[0];
-        var sfmInDataDaily = inValues[1];
-    
-        var outDistinctColor = "#00a3de";
-        var outLineColor = "#7c270b";
-        var outValues = JsonParser(rawSFMData, "Corrected Out (cm/hr)", outDistinctColor, "Sap Flow Out", "cm/hr");
-        var sfmOutDataHourly = outValues[0];
-        var sfmOutDataDaily = outValues[1];
-    
-    
-        // TODO: Un-hardcode the if statement for daily vs weekly in charts
-        console.log(sfmInDataDaily.slice(sfmInDataDaily.length - 7))
-        console.log(sfmOutDataDaily.slice(sfmOutDataDaily.length - 7))
-        // console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
+function getTimePortion(time, key, num) {
+    if(typeof time === 'string' || time instanceof String) {
+        var dummy = time;
+        for(var i = 0; i < num; i++) {
+            var index = dummy.indexOf(key);
+            dummy = dummy.substring(index + 1);
+        }
+        var index = dummy.indexOf(key);
+        if(index == -1) return dummy;
+        return dummy.substring(0, index);
+    }
+    return "error"
+}
 
-    var chartAspectWidth = vw(95);
+
+export default function SapFlow({ timeRange }) {
+
+    // Sap Flow Sycamore
+    var rawSFMData = require('../data/SFM2I102_sycamore.json');
+    var inDistinctColor = "black";
+    var inLineColor = "#00a3de";
+    var sfmInData = JsonParser(rawSFMData, "Corrected In (cm/hr)", inDistinctColor, "Sap Flow In", "cm/hr");
     
-    var [combinedSfmHourly, setCombinedSfmHourly] = useState([...sfmInDataHourly, ...sfmOutDataHourly])
-    var [combinedSfmDaily, setCombinedSfmDaily] = useState([...sfmInDataDaily, ...sfmOutDataDaily])
+    var outDistinctColor = "#00a3de";
+    var outLineColor = "#7c270b";
+    var sfmOutData = JsonParser(rawSFMData, "Corrected Out (cm/hr)", outDistinctColor, "Sap Flow Out", "cm/hr");
+    
+    const [combinedSfmData, setCombinedSfmData] = useState([...sfmInData, ...sfmOutData])
+
+    
+    // TODO: Un-hardcode the if statement for daily vs weekly in charts
+    console.log('In: ', sfmInData)
+    console.log('Out: ', sfmOutData)
+    // console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
+    
+    var chartAspectWidth = vw(85);
+    
+    const [tickSapFlow, setTickSapFlow] = useState(timeRange);
+    // Amount of data points for a day
+    const dailyLimit = 120;
+    const weeklyLimit = 840;
+    const monthlyLimit = 3360;
+    
+    var limit = dailyLimit;
+    if (timeRange === "weekly") limit = weeklyLimit;
+    else if (timeRange === "monthly") limit = monthlyLimit;
+    else if (timeRange === "yearly") limit = null;
+
+    function determineTimeRange(domain) {
+        var points = domain["x"][1] - domain["x"][0];
+        if (points < dailyLimit) return "daily";
+        else if (points > dailyLimit && points < weeklyLimit) return "weekly";
+        else if (points > weeklyLimit && points < monthlyLimit) return "monthly";
+        else if (points > monthlyLimit) return "yearly";
+        return "error";
+    }
+
+
+
+    // TODO - Set as a parameter based on time range
+    var startIndex = 0;
+
 
     const [checkboxSPIState, setSPICheckboxState] = useState(true);
     const [checkboxSPOState, setSPOCheckboxState] = useState(true);
 
     useEffect(() => {
         if (checkboxSPIState && checkboxSPOState) {
-            setCombinedSfmHourly([...sfmInDataHourly, ...sfmOutDataHourly])
-            setCombinedSfmDaily([...sfmInDataDaily, ...sfmOutDataDaily])
+            setCombinedSfmData([...sfmInData, ...sfmOutData])
         } else if (checkboxSPOState) {
-            setCombinedSfmDaily(sfmOutDataDaily)
-            setCombinedSfmHourly(sfmOutDataHourly)
+            setCombinedSfmData(sfmOutData)
         } else if (checkboxSPIState) {
-            setCombinedSfmDaily(sfmInDataDaily)
-            setCombinedSfmHourly(sfmInDataHourly)
+            setCombinedSfmData(sfmInData)
         } else {
-            setCombinedSfmDaily([])
-            setCombinedSfmHourly([])
+            setCombinedSfmData([])
         }
     }, [checkboxSPIState, checkboxSPOState]);
 
@@ -80,9 +120,15 @@ export default function SapFlow({timeRange}) {
                 iconStyle={{ borderColor: "red" }}
                 onPress={() => setSPOCheckboxState(!checkboxSPOState)}
             />
-            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={<VictoryZoomVoronoiContainer responsive={false} />}>
-                <VictoryAxis offsetY={50}
+            <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} containerComponent={
+                <VictoryZoomVoronoiContainer
+                    responsive={false}
+                    zoomDomain={!limit ? {} : { x: [startIndex, limit] }}
+                    onZoomDomainChange={(domain) => setTickSapFlow(determineTimeRange(domain))} />}>
+                <VictoryAxis
+                    offsetY={50}
                     tickCount={6}
+                    tickFormat={(t) => handleTick(t, tickSapFlow)}
                 />
                 <VictoryAxis dependentAxis />
                 <VictoryLabel x={40} y={20} style={[{ fill: inLineColor }]}
@@ -91,21 +137,17 @@ export default function SapFlow({timeRange}) {
                 <VictoryLabel x={40} y={35} style={[{ fill: outLineColor }]}
                     text={"Sap Flow Out"}
                 />
-                {
-                    checkboxSPIState && <VictoryLine data={timeRange === 'daily' ? sfmInDataHourly : sfmInDataDaily.slice(sfmInDataDaily.length - 7)} style={{ data: { stroke: inLineColor } }}
-                        x="time"
-                        y="data" />
-                }
-                {
-                    checkboxSPOState && <VictoryLine data={timeRange === 'daily' ? sfmOutDataHourly : sfmOutDataDaily.slice(sfmOutDataDaily.length - 7)} style={{ data: { stroke: outLineColor } }}
-                        x="time"
-                        y="data" />
-                }
-                <VictoryScatter data={timeRange === 'daily' ? combinedSfmHourly : combinedSfmDaily.slice(combinedSfmDaily.length - 7)} style={{ data: { fill: ({ datum }) => datum.color } }}
+                {checkboxSPIState && <VictoryLine data={sfmInData} style={{ data: { stroke: inLineColor } }}
+                    x="time"
+                    y="data" />}
+                {checkboxSPOState && <VictoryLine data={sfmOutData} style={{ data: { stroke: outLineColor } }}
+                    x="time"
+                    y="data" />}
+                <VictoryScatter data={combinedSfmData} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
-                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${datum.time}`]}
-                    labelComponent={<VictoryTooltip renderInPortal={false} />}
+                    labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tickSapFlow)}`]}
+                    labelComponent={<VictoryTooltip />}
                 />
             </VictoryChart>
         </View>

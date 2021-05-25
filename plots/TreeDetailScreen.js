@@ -24,17 +24,18 @@ export default function TreeDetailScreen({ navigation }) {
   const days = ['Mar 1', 'Mar 2', 'Mar 3', 'Mar 4', 'Mar 5']
   const weeks = ['Feb 28 - Mar 6', 'Mar 7-13', 'Mar 14-20']
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const years = ['2017', '2018', '2019', '2020', '2021']
 
   
 
   function DropdownTwo() {
     var timeRange = days
-    if (selectedView == "daily") {
-      timeRange = days
-    } else if (selectedView == "weekly") {
+    if (selectedView == "weekly") {
       timeRange = weeks
     } else if (selectedView == "monthly") {
       timeRange = months
+    } else if (selectedView == "yearly") {
+      timeRange = years
     }
 
 
@@ -83,6 +84,7 @@ export default function TreeDetailScreen({ navigation }) {
               <Picker.Item label="daily" value="daily" />
               <Picker.Item label="weekly" value="weekly" />
               <Picker.Item label="monthly" value="monthly" />
+              <Picker.Item label="yearly" value="yearly" />
             </Picker>
             <View><DropdownTwo /></View>
           </View>

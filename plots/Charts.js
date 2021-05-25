@@ -17,10 +17,9 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 import LineChart from './LineChart';
 import Environment from './Environment';
 
-const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
+// const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts({ navigation, timeRange }) {
-
 
     return (
         <View style={styles.container}>

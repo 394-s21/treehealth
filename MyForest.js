@@ -47,7 +47,7 @@ export default function MyForest({navigation}) {
 
               <Picker
                 mode="dropdown"
-                placeholderIconColor={'#E2E2E2'}
+                placeholdericoncolor={'#E2E2E2'}
                 value={selectedValue}
                 style={{ height: 50, width: 150, backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
                 onValueChange={setSelectedValue}
