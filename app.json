@@ -6,7 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/fixedLogo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/fixedLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +26,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/fixedLogo.png"
+      "favicon": "./assets/favicon.png"
     }
   }
 }
