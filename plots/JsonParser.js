@@ -1,20 +1,26 @@
+const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
 export default function JsonParser (rawData, columnName, distictColor, desc, units){
 
-    //var rawSFMData = require('../data/SFM2I102_sycamore.json');
-    //var spruceData = require('../data/102_norwayspruce.json');
+    var dataLimit = 1000;
 
-    var DataHourly = [];
-    var DataDaily = [];
-    var missingHourly = [];
-    var missingDaily = [];
+    var dataArr = [];
     var counter = 0;
     var color = distictColor;
     var scattSize = 1;
 
-
     var prev = 0
 
     for (const [key, value] of Object.entries(rawData)) {
+        if(counter > dataLimit) {
+            break;
+        }
+        let dateVal = value['Date']
+        let timeVal = value['Time']
+
+        if(!dateVal || !timeVal || /[a-z]/i.test(dateVal) || /[a-z]/i.test(timeVal)) {
+            continue;
+        }
 
         if (value[columnName] != "") {
             var curr = parseFloat(value[columnName]);
@@ -22,53 +28,48 @@ export default function JsonParser (rawData, columnName, distictColor, desc, uni
             var curr = undefined;
         }
 
-        // let dateVal = key.split(",")[0].replace(/\s+/g, '')
-        // let timeVal = key.split(",")[1].replace(/\s+/g, '')
-        let dateVal = value['Date']
-        let timeVal = value['Time']
+        let year = getTimePortion(dateVal, "/", 2);
+        let month = months[parseInt(getTimePortion(dateVal, "/", 1))];
+        let day = getTimePortion(dateVal, "/", 0);
+        let hour = timeVal;
 
-        // TODO: modify parser to insert 0s to match dd/mm/yyyy format
-        // TODO: do the same thing with time too probably
-        if (dateVal == "2/2/2021" || dateVal == "02/02/2018") {
-            if (curr === undefined) {
-                missingHourly.push(counter);
-                curr = prev;
-                color = 'red';
-                scattSize = 3;
-            }
-            DataHourly.push({
-                time: timeVal,
-                data: curr,
-                size: scattSize,
-                color: color,
-                desc: desc,
-                units: units
-            })
-            color = distictColor;
-            scattSize = 1;
-            counter++;
+        let monthStr = month + " " + year;
+        let dayStr = month + " " + day + " " + hour;
+        let hourStr = month + " " + day + " " + hour;
+
+        if (curr === undefined) {
+            curr = prev;
+            color = 'red';
+            scattSize = 3;
         }
 
-        if (timeVal == "0:00" || timeVal == "00:00") {
-            if (curr === undefined) {
-                missingDaily.push(counter);
-                curr = prev;
-                color = 'red';
-                scattSize = 3;
-            }
-            DataDaily.push({
-                time: dateVal,
-                data: curr,
-                size: scattSize,
-                color: color,
-                desc: desc,
-                units: units
-            })
-            color = distictColor;
-            scattSize = 1;
-        }
+        dataArr.push({
+            time: hourStr + "|" + dayStr + "|" + monthStr + "|" + year,
+            data: curr,
+            size: scattSize,
+            color: color,
+            desc: desc,
+            units: units
+        });
 
+        color = distictColor;
+        scattSize = 1;
+        counter++;
         prev = curr
     }
-    return [DataHourly, DataDaily];
+    return dataArr;
+}
+
+function getTimePortion(time, key, num) {
+    if(typeof time === 'string' || time instanceof String) {
+        var dummy = time;
+        for(var i = 0; i < num; i++) {
+            var index = dummy.indexOf(key);
+            dummy = dummy.substring(index + 1);
+        }
+        var index = dummy.indexOf(key);
+        if(index == -1) return dummy;
+        return dummy.substring(0, index);
+    }
+    return "error"
 }

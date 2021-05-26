@@ -9,6 +9,8 @@ import { Picker } from '@react-native-picker/picker';
 import Charts from './Charts';
 
 
+
+
 export default function TreeDetailScreen({ navigation }) {
   const treeInfo = {
     treeSpecies: 'American Elm',
@@ -22,22 +24,25 @@ export default function TreeDetailScreen({ navigation }) {
   const days = ['Mar 1', 'Mar 2', 'Mar 3', 'Mar 4', 'Mar 5']
   const weeks = ['Feb 28 - Mar 6', 'Mar 7-13', 'Mar 14-20']
   const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const years = ['2017', '2018', '2019', '2020', '2021']
+
+  
 
   function DropdownTwo() {
     var timeRange = days
-    if (selectedView == "daily") {
-      timeRange = days
-    } else if (selectedView == "weekly") {
+    if (selectedView == "weekly") {
       timeRange = weeks
     } else if (selectedView == "monthly") {
       timeRange = months
+    } else if (selectedView == "yearly") {
+      timeRange = years
     }
 
 
     return (
       <Picker
         selectedValue={selectedTime}
-        style={{ height: 45, width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
+        style={{ height: vh(10), width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
         onValueChange={setSelectedTime}
       >
         {timeRange.map((item, id) => (
@@ -48,7 +53,7 @@ export default function TreeDetailScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
         <Text style={styles.paragraph}></Text>
@@ -69,23 +74,26 @@ export default function TreeDetailScreen({ navigation }) {
         </View>
         {/* <Charts style={styles.plot} /> */}
         {/*<View style={styles.plot}></View>*/}
-        <View style={{ textAlign: 'center', marginBottom: 10 }}>
+        <View style={{ textAlign: 'center', marginBottom: 10, flex: 10}}>
           <View style={styles.filterDiv}>
             <Picker
               selectedValue={selectedView}
-              style={{ backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
+              style={{ height: vh(10), width: vw(40), backgroundColor: '#38735D', color: 'white', borderRadius: 5, padding: 10 }}
               onValueChange={setSelectedView}
             >
               <Picker.Item label="daily" value="daily" />
               <Picker.Item label="weekly" value="weekly" />
               <Picker.Item label="monthly" value="monthly" />
+              <Picker.Item label="yearly" value="yearly" />
             </Picker>
             <View><DropdownTwo /></View>
           </View>
         </View>
-        <Charts style={styles.plot} timeRange={selectedView}/>
+        
+        
+        <Charts timeRange={selectedView}/>
       </Text>
-    </View>
+    </ScrollView>
   );
 }
 
@@ -99,16 +107,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     flex: 20
   },
+  parragraph: {
+    textAlign: 'center',
+    flex: 5
+  },
   filler: {
     flex: 1,
   },
   info: {
     width: vw(90),
+    height: vh(15),
     flexDirection: 'row',
     textAlign: 'left',
     margin: vh(1),
     justifyContent: 'space-between',
-    flex: 7
+    flex: 5
   },
   add: {
     alignItems: "center",
@@ -118,21 +131,24 @@ const styles = StyleSheet.create({
     padding: 5,
     fontWeight: 'normal',
     width: vw(43),
+    height: vh(15),
     paddingTop: vh(2),
     paddingBottom: vh(2),
     borderRadius: 5
   },
   filterDiv: {
     width: vw(90),
+    height: vw(20),
     flexDirection: 'row',
     textAlign: 'left',
     margin: vh(1),
     justifyContent: 'space-between'
   },
   plot: {
+    flex: 5,
     width: vw(90),
     backgroundColor: 'pink',
-    height: vh(50)
+    height: vh(20)
   },
   inline: {
     flexDirection: 'row',
