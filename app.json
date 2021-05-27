@@ -4,9 +4,9 @@
     "slug": "snack-2415f54c-b705-44a0-9db4-ed692fe9a61f",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/fixedLogo.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/fixedLogo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,7 +21,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/fixedLogo.png",
         "backgroundColor": "#FFFFFF"
       }
     },
