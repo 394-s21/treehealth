@@ -116,8 +116,6 @@ export default function TreeDetailScreen({ navigation }) {
                 <Text>Average</Text>
               </View>
             </View>
-            {/* <Charts style={styles.plot} /> */}
-            {/*<View style={styles.plot}></View>*/}
             <View style={{ textAlign: "center", marginBottom: 10, flex: 10 }}>
               <View style={styles.filterDiv}>
                 <Picker
@@ -160,10 +158,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     flex: 20,
   },
-  parragraph: {
-    textAlign: "center",
-    flex: 5,
-  },
   filler: {
     flex: 1,
   },
@@ -194,12 +188,6 @@ const styles = StyleSheet.create({
     textAlign: "left",
     margin: vh(1),
     justifyContent: "space-between",
-  },
-  plot: {
-    flex: 5,
-    width: vw(90),
-    backgroundColor: "pink",
-    height: vh(20),
   },
   inline: {
     flexDirection: "row",
