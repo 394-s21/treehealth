@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
   },
   info: {
     width: vw(90),
-    height: vh(15),
     flexDirection: "row",
     textAlign: "left",
     margin: vh(1),
@@ -191,7 +190,6 @@ const styles = StyleSheet.create({
   },
   filterDiv: {
     width: vw(90),
-    height: vw(20),
     flexDirection: "row",
     textAlign: "left",
     margin: vh(1),
