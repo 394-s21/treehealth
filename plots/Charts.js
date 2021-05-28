@@ -29,10 +29,11 @@ import Environment from "./Environment";
 // const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 export default function Charts({ navigation, timeRange }) {
+  const [domain, setDomain] = useState([]);
   return (
     <View style={styles.container}>
-      <SapFlow timeRange={timeRange} />
-      <Environment timeRange={timeRange} />
+      <SapFlow timeRange={timeRange} domain={domain} setDomain={setDomain}/>
+      <Environment timeRange={timeRange} domain={domain} setDomain={setDomain}/>
     </View>
   );
 }

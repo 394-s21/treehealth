@@ -24,7 +24,7 @@ import { Line } from "react-native-svg";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import LineChart from "./LineChart";
 
-export default function Environment({ timeRange }) {
+export default function Environment({ timeRange, domain, setDomain }) {
   // Environment
   // Environment
   var rawEnvData = require("../data/forestryplot_spruce_met.json");
@@ -110,6 +110,8 @@ export default function Environment({ timeRange }) {
           data={vpdData}
           lineColor={vpdLineColor}
           timeRange={timeRange}
+          domain={domain}
+          setDomain={setDomain}
         />
       )}
       {/* Temp graph */}
@@ -119,6 +121,8 @@ export default function Environment({ timeRange }) {
           data={tempData}
           lineColor={tempLineColor}
           timeRange={timeRange}
+          domain={domain}
+          setDomain={setDomain}
         />
       )}
       {/* Precipitation graph */}
@@ -128,6 +132,8 @@ export default function Environment({ timeRange }) {
           data={rainData}
           lineColor={rainLineColor}
           timeRange={timeRange}
+          domain={domain}
+          setDomain={setDomain}
         />
       )}
     </View>
