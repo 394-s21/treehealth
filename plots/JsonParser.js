@@ -2,7 +2,7 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 
 
 export default function JsonParser (rawData, columnName, distictColor, desc, units){
 
-    var dataLimit = 1000;
+    var dataLimit = 500;
 
     var dataArr = [];
     var counter = 0;
