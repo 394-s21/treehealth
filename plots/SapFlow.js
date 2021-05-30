@@ -47,7 +47,7 @@ function getTimePortion(time, key, num) {
   return "error";
 }
 
-export default function SapFlow({ timeRange }) {
+export default function SapFlow({ timeRange, domain, setDomain }) {
   // Sap Flow Sycamore
   var rawSFMData = require("../data/SFM2I102_sycamore.json");
   var inDistinctColor = "black";
@@ -74,11 +74,6 @@ export default function SapFlow({ timeRange }) {
     ...sfmInData,
     ...sfmOutData,
   ]);
-
-  // TODO: Un-hardcode the if statement for daily vs weekly in charts
-  console.log("In: ", sfmInData);
-  console.log("Out: ", sfmOutData);
-  // console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
 
   var chartAspectWidth = vw(85);
 
@@ -145,10 +140,15 @@ export default function SapFlow({ timeRange }) {
         containerComponent={
           <VictoryZoomVoronoiContainer
             responsive={false}
-            zoomDomain={!limit ? {} : { x: [startIndex, limit] }}
-            onZoomDomainChange={(domain) =>
-              setTickSapFlow(determineTimeRange(domain))
+            zoomDomain={
+              domain.length !== 0 ? {x: domain}
+              : !limit ? {}
+              : {x: [startIndex, limit]}
             }
+            onZoomDomainChange={(domain) => {
+              setTickSapFlow(determineTimeRange(domain));
+              setDomain(domain["x"]);
+            }}
           />
         }
       >
