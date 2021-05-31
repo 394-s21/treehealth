@@ -79,7 +79,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
     "Rain",
     "mm?"
   );
-
+  console.log(rainData)
   var envData = [vpdData, tempData, rainData]
   const [envScatter, setEnvScatter] = useState([])
 
@@ -239,7 +239,13 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickFormat={(t) => t * maxima[2]}
                 />)}
             <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
+                text={"VPD"}
+            />
+            <VictoryLabel x={90} y={20} style={[{ fill: tempLineColor }]}
                 text={"Temperature"}
+            />
+            <VictoryLabel x={200} y={20} style={[{ fill: rainLineColor }]}
+                text={"Precipitation"}
             />
             {checkboxVpd && (<VictoryLine data={vpdData} style={{ data: { stroke: vpdLineColor } }}
                 x="time"
@@ -252,7 +258,15 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 y={(datum) => datum.data / maxima[2]} />)}
             <VictoryScatter data={envScatter} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
-                    y="data"
+                    y={(datum) => {
+                      if (datum.desc == "VPD") {
+                        return datum.data / maxima[0]
+                      } else if (datum.desc == "Temp") {
+                        return datum.data / maxima[1]
+                      } else {
+                        return datum.data / maxima[2]
+                      }
+                    }}
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tick)}`]}
                     labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
                 />
