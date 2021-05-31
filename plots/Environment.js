@@ -32,15 +32,6 @@ function handleTick(t, tickType) {
   else return "error";
 }
 
-function determineTimeRange(domain) {
-  var points = domain["x"][1] - domain["x"][0];
-  if (points < dailyLimit) return "daily";
-  else if (points > dailyLimit && points < weeklyLimit) return "weekly";
-  else if (points > weeklyLimit && points < monthlyLimit) return "monthly";
-  else if (points > monthlyLimit) return "yearly";
-  return "error";
-}
-
 function getTimePortion(time, key, num) {
   if(typeof time === 'string' || time instanceof String) {
       var dummy = time;
@@ -62,13 +53,13 @@ export default function Environment({ timeRange, domain, setDomain }) {
 
   // VPD
   var vpdDistinctColor = "blue";
-  var vpdLineColor = "#00a3de";
+  var vpdLineColor = "blue";
   // TODO: What unit of measure is VPD?
   var vpdData = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
 
   // Temp
   var tempDistinctColor = "blue";
-  var tempLineColor = "#00a3de";
+  var tempLineColor = "red";
   var tempData = JsonParser(
     rawEnvData,
     "Temp",
@@ -79,7 +70,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
 
   // Rain
   var rainDistinctColor = "blue";
-  var rainLineColor = "#00a3de";
+  var rainLineColor = "green";
   // TODO: What unit of measure is Rain?
   var rainData = JsonParser(
     rawEnvData,
@@ -104,12 +95,21 @@ export default function Environment({ timeRange, domain, setDomain }) {
   else if (timeRange === "monthly") limit = monthlyLimit;
   else if (timeRange === "yearly") limit = null;
 
+  function determineTimeRange(domain) {
+    var points = domain["x"][1] - domain["x"][0];
+    if (points < dailyLimit) return "daily";
+    else if (points > dailyLimit && points < weeklyLimit) return "weekly";
+    else if (points > weeklyLimit && points < monthlyLimit) return "monthly";
+    else if (points > monthlyLimit) return "yearly";
+    return "error";
+  }
+
   const [tick, setTick] = useState(timeRange);
   // TODO - Set as a parameter based on time range
   var startIndex = 0;
-  var xOffsets = [50, 500, 1500];
+  var xOffsets = [vw(2.6), vw(42.5), vw(82.4)];
   const maxima = envData.map(
-      (dataset) => Math.max(...dataset.map((d) => d.y))
+      (dataset) => Math.max(...dataset.map((d) => d.data))
   );
 
   // var rawSpruceData = require('../data/102_norwayspruce.json');
@@ -190,7 +190,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
             />
-            {envData.map((d, i) => {
+            {/* {envData.map((d, i) => {
                 {console.log(i)}
                 <VictoryAxis 
                 dependentAxis 
@@ -204,19 +204,52 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[i]}
                 />
-            })}
+            })} */}
+            {checkboxVpd && (<VictoryAxis 
+                dependentAxis 
+                offsetX={xOffsets[0]}
+                style={{
+                  axis: { stroke: vpdLineColor },
+                  ticks: { padding: 0 },
+                  tickLabels: { fill: vpdLineColor}
+                }}
+                tickValues={[0.25, 0.5, 0.75, 1]}
+                tickFormat={(t) => t * maxima[0]}
+                />)}
+            {checkboxTemp && (<VictoryAxis 
+                dependentAxis 
+                offsetX={xOffsets[1]}
+                style={{
+                  axis: { stroke: tempLineColor },
+                  ticks: { padding: 0 },
+                  tickLabels: { fill: tempLineColor}
+                }}
+                tickValues={[0.25, 0.5, 0.75, 1]}
+                tickFormat={(t) => t * maxima[1]}
+                />)}
+            {checkboxPrecipitation && (<VictoryAxis 
+                dependentAxis 
+                offsetX={xOffsets[2]}
+                style={{
+                  axis: { stroke: rainLineColor },
+                  ticks: { padding: 0 },
+                  tickLabels: { fill: rainLineColor}
+                }}
+                tickValues={[0.25, 0.5, 0.75, 1]}
+                tickFormat={(t) => t * maxima[2]}
+                />)}
             <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
                 text={"Temperature"}
             />
             {checkboxVpd && (<VictoryLine data={vpdData} style={{ data: { stroke: vpdLineColor } }}
                 x="time"
-                y="data" />)}
+                y={(datum) => datum.data / maxima[0]}/>)}
             {checkboxTemp && (<VictoryLine data={tempData} style={{ data: { stroke: tempLineColor } }}
                 x="time"
-                y="data" />)}
+                y={(datum) => datum.data / maxima[1]} />)}
             {checkboxPrecipitation && (<VictoryLine data={rainData} style={{ data: { stroke: rainLineColor } }}
                 x="time"
-                y="data" />)}
+                y={(datum) => datum.data / maxima[2]} />)}
             <VictoryScatter data={envScatter} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y="data"
