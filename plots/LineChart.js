@@ -57,7 +57,7 @@ export default function LineChart({ label, data, lineColor, timeRange, domain, s
     const [tick, setTick] = useState(timeRange);
     // TODO - Set as a parameter based on time range
     var startIndex = 0;
-
+    var xOffsets = [vw(15), vw(50), vw(85)];
     return (
         <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material}
         containerComponent={
@@ -79,7 +79,12 @@ export default function LineChart({ label, data, lineColor, timeRange, domain, s
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
             />
-            <VictoryAxis dependentAxis />
+            {data.map((d, i) => {
+                <VictoryAxis 
+                dependentAxis 
+                key={i} 
+                xOffset={xOffsets[i]} />
+            })}
             <VictoryLabel x={40} y={20} style={[{ fill: lineColor }]}
                 text={label}
             />
@@ -90,7 +95,7 @@ export default function LineChart({ label, data, lineColor, timeRange, domain, s
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tick)}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
                 />
         </VictoryChart>
 
