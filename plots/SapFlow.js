@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
-// import { ListItem, Icon } from 'react-native-elements'
-// import { NavigationContainer, CommonActions } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
-// import { Foundation } from '@expo/vector-icons';
-// import {Picker} from '@react-native-picker/picker';
+import { View } from "react-native";
+import { vw } from "react-native-expo-viewport-units";
 import {
+  createContainer,
   VictoryLine,
   VictoryChart,
   VictoryTheme,
   VictoryAxis,
   VictoryLabel,
   VictoryScatter,
-  VictoryZoomContainer,
   VictoryTooltip,
 } from "../Victory";
-import { createContainer } from "../Victory";
-// import {createContainer} from '../Victory.web';
-// import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { Line } from "react-native-svg";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
