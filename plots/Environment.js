@@ -77,9 +77,8 @@ export default function Environment({ timeRange, domain, setDomain }) {
     "Rain",
     rainDistinctColor,
     "Rain",
-    "mm?"
+    "mm"
   );
-  console.log(rainData)
   var envData = [vpdData, tempData, rainData]
   const [envScatter, setEnvScatter] = useState([])
 
@@ -126,9 +125,11 @@ export default function Environment({ timeRange, domain, setDomain }) {
     setVpdLine(checkboxVpd ? vpdData : [])
     setTempLine(checkboxTemp ? tempData : [])
     setRainLine(checkboxPrecipitation ? rainData : [])
-    setEnvScatter([...vpdLine, ...tempLine, ...rainLine])
-    
   }, [checkboxVpd, checkboxTemp, checkboxPrecipitation]);
+
+  useEffect(() => {
+    setEnvScatter([...vpdLine, ...tempLine, ...rainLine])
+  }, [vpdLine, tempLine, rainLine])
 
 
   const FilterEnvironmentData = () => {
@@ -268,7 +269,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                       }
                     }}
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tick)}`]}
-                    labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
+                    labelComponent={<VictoryTooltip flyoutWidth={150} flyoutHeight={60} style={{fontSize: 12}} />}
                 />
         </VictoryChart>
       {/* VPD graph */}
