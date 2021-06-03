@@ -90,7 +90,7 @@ export default function TreeDetailScreen({ navigation }) {
 
       <TouchableOpacity onPress={toggleExpanded}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Tree Information</Text>
+          <Text style={styles.headerText}>{collapsed ? 'v  Tree Information  v' : '^  Tree Information  ^'}</Text>
         </View>
       </TouchableOpacity>
       <Collapsible collapsed={collapsed} align="center">
