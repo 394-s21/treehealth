@@ -195,7 +195,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
             `${datum.desc}: ${datum.data} ${datum.units}`,
             `Time: ${handleTick(datum.time, tickSapFlow)}`,
           ]}
-          labelComponent={<VictoryTooltip flyoutWidth={150} flyoutHeight={60} style={{fontSize: 12}}/>}
+          labelComponent={<VictoryTooltip flyoutWidth={160} flyoutHeight={60} style={{fontSize: 12}}/>}
         />
       </VictoryChart>
     </View>
