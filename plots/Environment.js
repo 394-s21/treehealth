@@ -1,28 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
-// import { ListItem, Icon } from 'react-native-elements'
-// import { NavigationContainer, CommonActions } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
-// import { Foundation } from '@expo/vector-icons';
-// import {Picker} from '@react-native-picker/picker';
+import { View } from "react-native";
+import { vw } from "react-native-expo-viewport-units";
 import {
+  createContainer,
   VictoryLine,
   VictoryChart,
   VictoryTheme,
   VictoryAxis,
   VictoryLabel,
   VictoryScatter,
-  VictoryZoomContainer,
   VictoryTooltip,
 } from "../Victory";
-import { createContainer } from "../Victory";
-// import {createContainer} from '../Victory.web';
-// import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
-import { Line } from "react-native-svg";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import LineChart from "./LineChart";
+// import LineChart from "./LineChart";
 
 function handleTick(t, tickType) {
   if (tickType === "daily") return `${getTimePortion(t, "|", 0)}`;
@@ -48,14 +39,18 @@ function getTimePortion(time, key, num) {
 
 export default function Environment({ timeRange, domain, setDomain }) {
   // Environment
-  // Environment
   var rawEnvData = require("../data/forestryplot_spruce_met.json");
 
   // VPD
   var vpdDistinctColor = "blue";
   var vpdLineColor = "blue";
-  // TODO: What unit of measure is VPD?
-  var vpdData = JsonParser(rawEnvData, "VPD", vpdDistinctColor, "VPD", "kPa");
+  var vpdData = JsonParser(
+    rawEnvData,
+    "VPD",
+    vpdDistinctColor,
+    "VPD",
+    "kPa"
+  );
 
   // Temp
   var tempDistinctColor = "blue";
@@ -71,7 +66,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
   // Rain
   var rainDistinctColor = "blue";
   var rainLineColor = "green";
-  // TODO: What unit of measure is Rain?
   var rainData = JsonParser(
     rawEnvData,
     "Rain",
@@ -79,11 +73,13 @@ export default function Environment({ timeRange, domain, setDomain }) {
     "Rain",
     "mm"
   );
+
   var envData = [vpdData, tempData, rainData]
   const [envScatter, setEnvScatter] = useState([])
 
   const chartAspectWidth = vw(85);
   const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
+
   // Amount of data points for a day
   const dailyLimit = 120;
   const weeklyLimit = 840;
@@ -168,6 +164,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
       </View>
     );
   };
+
   return (
     <View>
       <FilterEnvironmentData />
@@ -193,9 +190,9 @@ export default function Environment({ timeRange, domain, setDomain }) {
             />
             {/* {envData.map((d, i) => {
                 {console.log(i)}
-                <VictoryAxis 
-                dependentAxis 
-                key={i} 
+                <VictoryAxis
+                dependentAxis
+                key={i}
                 xOffset={xOffsets[i]}
                 // style={{
                 //   axis: { stroke: vpdLineColor },
@@ -206,8 +203,8 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickFormat={(t) => t * maxima[i]}
                 />
             })} */}
-            {checkboxVpd && (<VictoryAxis 
-                dependentAxis 
+            {checkboxVpd && (<VictoryAxis
+                dependentAxis
                 offsetX={xOffsets[0]}
                 style={{
                   axis: { stroke: vpdLineColor },
@@ -217,8 +214,8 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[0]}
                 />)}
-            {checkboxTemp && (<VictoryAxis 
-                dependentAxis 
+            {checkboxTemp && (<VictoryAxis
+                dependentAxis
                 offsetX={xOffsets[1]}
                 style={{
                   axis: { stroke: tempLineColor },
@@ -228,8 +225,8 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[1]}
                 />)}
-            {checkboxPrecipitation && (<VictoryAxis 
-                dependentAxis 
+            {checkboxPrecipitation && (<VictoryAxis
+                dependentAxis
                 offsetX={xOffsets[2]}
                 style={{
                   axis: { stroke: rainLineColor },

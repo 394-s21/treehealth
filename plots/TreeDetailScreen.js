@@ -1,21 +1,12 @@
 import React, { useState } from "react";
 import {
   View,
-  Button,
   Text,
   StyleSheet,
-  TextInput,
-  TouchableHighlight,
   ScrollView,
-  SafeAreaView,
-  StatusBar,
   TouchableOpacity,
 } from "react-native";
-import { ListItem, Icon } from "react-native-elements";
-import { NavigationContainer, CommonActions } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
-import { Foundation } from "@expo/vector-icons";
+import { vw, vh } from "react-native-expo-viewport-units";
 import { Picker } from "@react-native-picker/picker";
 import Charts from "./Charts";
 import Collapsible from "react-native-collapsible";
