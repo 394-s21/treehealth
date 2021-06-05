@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Platform } from "react-native";
-import { vw } from "react-native-expo-viewport-units";
+import { vw, vh } from "react-native-expo-viewport-units";
 import SapFlow from "./SapFlow";
 import Environment from "./Environment";
 
