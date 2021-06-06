@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Environment from '../plots/Environment';
+import SapFlow from '../plots/SapFlow';
 
 jest.mock('react-native-bouncy-checkbox', () => {
   return {
@@ -16,10 +16,10 @@ jest.mock('../Victory', () => {
   }
 });
 
-it('renders environment chart', () => {
+it('renders sap flow chart', () => {
   // TODO: Darryl
   const { getByTestId } = render(
-    <Environment
+    <SapFlow
       timeRange='daily'
       domain={[]}
       setDomain={() => null}
@@ -27,4 +27,9 @@ it('renders environment chart', () => {
   );
 
   expect(getByTestId('chart'));
+});
+
+it('sap flow checkboxes trigger lines', () => {
+  // TODO - Darryl
+  expect(true).toBe(true);
 });

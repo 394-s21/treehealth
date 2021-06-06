@@ -54,11 +54,14 @@
   },
   "jest": {
     "preset": "react-native",
+    "setupFiles": [
+        "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(react-native|react-native-expo-viewport-units|react-native-bouncy-checkbox|victory-native|victory-core|victory-shared-events|victory-area|victory-bar|victory-candlestick|victory-line|victory-errorbar|victory-pie|victory-voronoi|victory-tooltip|victory-axis|victory-polar-axis|victory-box-plot|victory-group|victory-histogram|victory-scatter|victory-stack|victory-chart|victory-legend)/)"
+      "node_modules/(?!(react-native|react-native-expo-viewport-units|react-native-bouncy-checkbox|react-native-iphone-x-helper|react-native-gesture-handler|victory-native|victory-core|victory-shared-events|victory-area|victory-bar|victory-candlestick|victory-line|victory-errorbar|victory-pie|victory-voronoi|victory-tooltip|victory-axis|victory-polar-axis|victory-box-plot|victory-group|victory-histogram|victory-scatter|victory-stack|victory-chart|victory-legend)/)"
     ]
   },
   "private": true
