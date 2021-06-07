@@ -1,24 +1,31 @@
-import React from 'react';
-import { render } from '@testing-library/react-native';
+import React, { useState } from 'react';
+import { render, fireEvent } from '@testing-library/react-native';
 import SapFlow from '../plots/SapFlow';
 
 jest.mock('react-native-bouncy-checkbox', () => {
   return {
     __esModule: true,
-    default: () => (<div></div>)
+    default: ({ text, onPress }) => (
+      <div
+        testID={`${text}-checkbox`}
+        onPress={onPress}
+      />
+    )
   }
 });
 
 jest.mock('../Victory', () => {
   return {
     ...jest.requireActual('../Victory'),
-    VictoryChart: () => (<div testID='chart'></div>)
+    VictoryChart: ({ children }) => (<div testID='chart'>{children}</div>),
+    VictoryLine: ({ testID }) => (<div testID={testID} />),
+    VictoryScatter: () => (<div />),
+    VictoryAxis: () => (<div testID='axis' />)
   }
 });
 
 it('renders sap flow chart', () => {
-  // TODO: Darryl
-  const { getByTestId } = render(
+  const { getByTestId, getAllByTestId } = render(
     <SapFlow
       timeRange='daily'
       domain={[]}
@@ -26,10 +33,37 @@ it('renders sap flow chart', () => {
     />
   );
 
-  expect(getByTestId('chart'));
+  expect(getByTestId('chart')).toBeDefined();
+  expect(getAllByTestId('axis')).toHaveLength(2);
 });
 
 it('sap flow checkboxes trigger lines', () => {
-  // TODO - Darryl
-  expect(true).toBe(true);
+  const { getByTestId, queryByTestId } = render(
+    <SapFlow
+      timeRange='daily'
+      domain={[]}
+      setDomain={() => null}
+    />
+  );
+
+  expect(getByTestId('Sap Flow In-checkbox')).toBeDefined();
+  expect(getByTestId('Sap Flow Out-checkbox')).toBeDefined();
+
+  expect(getByTestId('lineIn')).toBeDefined();
+  expect(queryByTestId('lineOut')).toBeNull();
+
+  fireEvent.press(getByTestId('Sap Flow Out-checkbox'));
+
+  expect(getByTestId('lineIn')).toBeDefined();
+  expect(getByTestId('lineOut')).toBeDefined();
+
+  fireEvent.press(getByTestId('Sap Flow In-checkbox'));
+
+  expect(queryByTestId('lineIn')).toBeNull();
+  expect(getByTestId('lineOut')).toBeDefined();
+
+  fireEvent.press(getByTestId('Sap Flow Out-checkbox'));
+
+  expect(queryByTestId('lineIn')).toBeNull();
+  expect(queryByTestId('lineOut')).toBeNull();
 });

@@ -163,6 +163,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         />
         {checkboxSPIState && (
           <VictoryLine
+            testID='lineIn'
             data={sfmInData}
             style={{ data: { stroke: inLineColor } }}
             x="time"
@@ -171,6 +172,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         )}
         {checkboxSPOState && (
           <VictoryLine
+            testID='lineOut'
             data={sfmOutData}
             style={{ data: { stroke: outLineColor } }}
             x="time"

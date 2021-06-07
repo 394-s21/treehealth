@@ -5,20 +5,21 @@ import Environment from '../plots/Environment';
 jest.mock('react-native-bouncy-checkbox', () => {
   return {
     __esModule: true,
-    default: () => (<div></div>)
+    default: () => (<div />)
   }
 });
 
 jest.mock('../Victory', () => {
   return {
     ...jest.requireActual('../Victory'),
-    VictoryChart: () => (<div testID='chart'></div>)
+    VictoryChart: ({ children }) => (<div testID='chart'>{children}</div>),
+    VictoryScatter: () => (<div />),
+    VictoryAxis: () => (<div testID='axis' />)
   }
 });
 
 it('renders environment chart', () => {
-  // TODO: Darryl
-  const { getByTestId } = render(
+  const { getByTestId, getAllByTestId } = render(
     <Environment
       timeRange='daily'
       domain={[]}
@@ -26,5 +27,6 @@ it('renders environment chart', () => {
     />
   );
 
-  expect(getByTestId('chart'));
+  expect(getByTestId('chart')).toBeDefined();
+  expect(getAllByTestId('axis')).toHaveLength(1);
 });
