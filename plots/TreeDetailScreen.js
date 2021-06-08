@@ -79,13 +79,15 @@ export default function TreeDetailScreen({ navigation }) {
     <ScrollView style={styles.container}>
       <Text style={styles.filler}></Text>
 
-      <TouchableOpacity onPress={toggleExpanded}>
+      <TouchableOpacity onPress={toggleExpanded} testID="button">
         <View style={styles.header}>
-          <Text style={styles.headerText}>{collapsed ? 'v  Tree Information  v' : '^  Tree Information  ^'}</Text>
+          <Text style={styles.headerText}>
+            {collapsed ? "v  Tree Information  v" : "^  Tree Information  ^"}
+          </Text>
         </View>
       </TouchableOpacity>
       <Collapsible collapsed={collapsed} align="center">
-        <View style={styles.content}>
+        <View style={styles.content} testID="treeInfo">
           <Text style={styles.paragraph}>
             <Text style={styles.paragraph}></Text>
             <View style={styles.info}>

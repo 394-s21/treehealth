@@ -1,23 +1,30 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import Environment from '../plots/Environment';
+
 
 jest.mock('react-native-bouncy-checkbox', () => {
   return {
     __esModule: true,
-    default: () => (<div></div>)
+    default: ({testID, onPress}) => (<div
+      testID={testID}
+      onPress={onPress}
+    />)
   }
 });
 
 jest.mock('../Victory', () => {
   return {
     ...jest.requireActual('../Victory'),
-    VictoryChart: () => (<div testID='chart'></div>)
+    VictoryChart: ({ children }) => (<div testID='chart'>{children}</div>),
+    VictoryLine: ({testID}) => (<div testID={testID} />),
+    VictoryScatter: () => (<div />),
+    VictoryAxis: ({testID}) => (<div testID={testID} />),
+    
   }
 });
 
-it('renders environment chart', () => {
-  // TODO: Darryl
+it('checkboxes render on environment chart', () => {
   const { getByTestId } = render(
     <Environment
       timeRange='daily'
@@ -26,5 +33,67 @@ it('renders environment chart', () => {
     />
   );
 
-  expect(getByTestId('chart'));
+  expect(getByTestId("vpdCheckbox")).toBeDefined();
+  expect(getByTestId("tempCheckbox")).toBeDefined();
+  expect(getByTestId("rainCheckbox")).toBeDefined();
 });
+
+
+it('renders environment chart', () => {
+  const { getByTestId, getAllByTestId } = render(
+    <Environment
+      timeRange='daily'
+      domain={[]}
+      setDomain={() => null}
+    />
+  );
+
+  expect(getByTestId('chart')).toBeDefined();
+  expect(getAllByTestId('axis')).toHaveLength(1);
+});
+
+it('clicking checkboxes renders line', () => {
+
+  const { getByTestId, queryByTestId } = render(
+    <Environment
+      timeRange='daily'
+      domain={[]}
+      setDomain={() => null}
+    />
+  );
+  
+  expect(queryByTestId('vpdLine')).toBeNull();
+  fireEvent.press(getByTestId('vpdCheckbox'));
+  expect(getByTestId('vpdLine')).toBeDefined();
+  
+  expect(queryByTestId('tempLine')).toBeNull();
+  fireEvent.press(getByTestId('tempCheckbox'));
+  expect(getByTestId('tempLine')).toBeDefined();
+
+  expect(queryByTestId('rainLine')).toBeNull();
+  fireEvent.press(getByTestId('rainCheckbox'));
+  expect(getByTestId('rainLine')).toBeDefined();
+
+});
+
+it('clicking checkboxes renders vertical axes', () => {
+  const { getByTestId, queryByTestId } = render(
+    <Environment
+      timeRange='daily'
+      domain={[]}
+      setDomain={() => null}
+    />
+  );
+  
+  expect(queryByTestId('vpdAxis')).toBeNull();
+  fireEvent.press(getByTestId('vpdCheckbox'));
+  expect(getByTestId('vpdAxis')).toBeDefined();
+  
+  expect(queryByTestId('tempAxis')).toBeNull();
+  fireEvent.press(getByTestId('tempCheckbox'));
+  expect(getByTestId('tempAxis')).toBeDefined();
+
+  expect(queryByTestId('rainAxis')).toBeNull();
+  fireEvent.press(getByTestId('rainCheckbox'));
+  expect(getByTestId('rainAxis')).toBeDefined();
+})
