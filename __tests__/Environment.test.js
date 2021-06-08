@@ -36,11 +36,23 @@ it('checkboxes render on environment chart', () => {
   expect(getByTestId("vpdCheckbox")).toBeDefined();
   expect(getByTestId("tempCheckbox")).toBeDefined();
   expect(getByTestId("rainCheckbox")).toBeDefined();
+});
 
+
+it('renders environment chart', () => {
+  const { getByTestId, getAllByTestId } = render(
+    <Environment
+      timeRange='daily'
+      domain={[]}
+      setDomain={() => null}
+    />
+  );
+
+  expect(getByTestId('chart')).toBeDefined();
+  expect(getAllByTestId('axis')).toHaveLength(1);
 });
 
 it('clicking checkboxes renders line', () => {
-
 
   const { getByTestId, queryByTestId } = render(
     <Environment
