@@ -140,6 +140,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxVpd(!checkboxVpd)}
           disableBuiltInState
           isChecked={!checkboxVpd}
+          testID="vpdCheckbox"
         />
         <BouncyCheckbox
           size={25}
@@ -150,6 +151,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxTemp(!checkboxTemp)}
           disableBuiltInState
           isChecked={!checkboxTemp}
+          testID="tempCheckbox"
         />
         <BouncyCheckbox
           size={25}
@@ -160,6 +162,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxPrecipitation(!checkboxPrecipitation)}
           disableBuiltInState
           isChecked={!checkboxPrecipitation}
+          testID="rainCheckbox"
         />
       </View>
     );
@@ -213,6 +216,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 }}
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[0]}
+                testID="vpdAxis"
                 />)}
             {checkboxTemp && (<VictoryAxis
                 dependentAxis
@@ -224,6 +228,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 }}
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[1]}
+                testID="tempAxis"
                 />)}
             {checkboxPrecipitation && (<VictoryAxis
                 dependentAxis
@@ -235,6 +240,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 }}
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[2]}
+                testID="rainAxis"
                 />)}
             <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
                 text={"VPD"}
@@ -247,13 +253,16 @@ export default function Environment({ timeRange, domain, setDomain }) {
             />
             {checkboxVpd && (<VictoryLine data={vpdData} style={{ data: { stroke: vpdLineColor } }}
                 x="time"
-                y={(datum) => datum.data / maxima[0]}/>)}
+                y={(datum) => datum.data / maxima[0]}
+                testID="vpdLine"/>)}
             {checkboxTemp && (<VictoryLine data={tempData} style={{ data: { stroke: tempLineColor } }}
                 x="time"
-                y={(datum) => datum.data / maxima[1]} />)}
+                y={(datum) => datum.data / maxima[1]} 
+                testID="tempLine"/>)}
             {checkboxPrecipitation && (<VictoryLine data={rainData} style={{ data: { stroke: rainLineColor } }}
                 x="time"
-                y={(datum) => datum.data / maxima[2]} />)}
+                y={(datum) => datum.data / maxima[2]} 
+                testID="rainLine"/>)}
             <VictoryScatter data={envScatter} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y={(datum) => {
