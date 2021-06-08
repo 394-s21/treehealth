@@ -190,6 +190,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
             <VictoryAxis offsetY={50}
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
+                testID="axis"
             />
             {/* {envData.map((d, i) => {
                 {console.log(i)}
