@@ -126,9 +126,11 @@ export default function Environment({ timeRange, domain, setDomain }) {
     setVpdLine(checkboxVpd ? vpdData : [])
     setTempLine(checkboxTemp ? tempData : [])
     setRainLine(checkboxPrecipitation ? rainData : [])
-    setEnvScatter([...vpdLine, ...tempLine, ...rainLine])
-
   }, [checkboxVpd, checkboxTemp, checkboxPrecipitation]);
+
+  useEffect(() => {
+    setEnvScatter([...vpdLine, ...tempLine, ...rainLine])
+  }, [vpdLine, tempLine, rainLine])
 
 
   const FilterEnvironmentData = () => {
@@ -144,6 +146,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxVpd(!checkboxVpd)}
           disableBuiltInState
           isChecked={!checkboxVpd}
+          testID="vpdCheckbox"
         />
         {/* Checkbox for Temp data */}
         <BouncyCheckbox
@@ -155,6 +158,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxTemp(!checkboxTemp)}
           disableBuiltInState
           isChecked={!checkboxTemp}
+          testID="tempCheckbox"
         />
         {/* Checkbox for Rain data */}
         <BouncyCheckbox
@@ -166,6 +170,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
           onPress={() => setCheckboxPrecipitation(!checkboxPrecipitation)}
           disableBuiltInState
           isChecked={!checkboxPrecipitation}
+          testID="rainCheckbox"
         />
       </View>
     );
@@ -195,6 +200,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
             <VictoryAxis offsetY={50}
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
+                testID="axis"
             />
             {/* y-axis for vpd, only shown if vpd checkbox is checked */}
             {checkboxVpd && (<VictoryAxis
@@ -208,6 +214,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 // Set axis values according to maximum
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[0]}
+                testID="vpdAxis"
                 />)}
             {/* y-axis for temp, only shown if vpd checkbox is checked */}
             {checkboxTemp && (<VictoryAxis
@@ -221,6 +228,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 // Set axis values according to maximum
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[1]}
+                testID="tempAxis"
                 />)}
             {/* y-axis for precipitation, only shown if precipitation checkbox is checked */}
             {checkboxPrecipitation && (<VictoryAxis
@@ -234,6 +242,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 // Set axis values according to maximum
                 tickValues={[0.25, 0.5, 0.75, 1]}
                 tickFormat={(t) => t * maxima[2]}
+                testID="rainAxis"
                 />)}
             {/* Set labels for each data type at top of graph to determine which line is which */}
             <VictoryLabel x={40} y={20} style={[{ fill: vpdLineColor }]}
@@ -249,17 +258,20 @@ export default function Environment({ timeRange, domain, setDomain }) {
             {checkboxVpd && (<VictoryLine data={vpdData} style={{ data: { stroke: vpdLineColor } }}
                 x="time"
                 // data normalized according to maximum
-                y={(datum) => datum.data / maxima[0]}/>)}
+                y={(datum) => datum.data / maxima[0]}
+                testID="vpdLine"/>)}
             {/* line for temp, only shown if temp checkbox is checked */}
             {checkboxTemp && (<VictoryLine data={tempData} style={{ data: { stroke: tempLineColor } }}
                 x="time"
                 // data normalized according to maximum
-                y={(datum) => datum.data / maxima[1]} />)}
+                y={(datum) => datum.data / maxima[1]} 
+                testID="tempLine"/>)}
             {/* line for precipitation, only shown if precipitation checkbox is checked */}
             {checkboxPrecipitation && (<VictoryLine data={rainData} style={{ data: { stroke: rainLineColor } }}
                 x="time"
                 // data normalized according to maximum
-                y={(datum) => datum.data / maxima[2]} />)}
+                y={(datum) => datum.data / maxima[2]} 
+                testID="rainLine"/>)}
             <VictoryScatter data={envScatter} style={{ data: { fill: ({ datum }) => datum.color } }}
                     x="time"
                     y={(datum) => {
@@ -275,7 +287,7 @@ export default function Environment({ timeRange, domain, setDomain }) {
                     // Format labels on tooltip
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tick)}`]}
                     // Set dimensions of tooltip to see data when scrolling on line
-                    labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
+                    labelComponent={<VictoryTooltip flyoutWidth={150} flyoutHeight={60} style={{fontSize: 12}} />}
                 />
         </VictoryChart>
     </View>

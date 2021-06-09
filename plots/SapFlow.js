@@ -127,6 +127,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         text="Sap Flow In"
         iconStyle={{ borderColor: "blue" }}
         onPress={() => setSPICheckboxState(!checkboxSPIState)}
+        testID='Sap Flow In-checkbox'
       />
       {/* Sap Flow Out Checkbox */}
       <BouncyCheckbox
@@ -137,6 +138,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         iconStyle={{ borderColor: "red" }}
         onPress={() => setSPOCheckboxState(!checkboxSPOState)}
         isChecked={true}
+        testID='Sap Flow Out-checkbox'
       />
       <VictoryChart
         width={chartAspectWidth}
@@ -146,9 +148,9 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
           // container used to reset graph after zoom and display tooltip
             responsive={false}
             zoomDomain={
-              domain.length !== 0 ? {x: domain}
-              : !limit ? {}
-              : {x: [startIndex, limit]}
+              domain.length !== 0 ? { x: domain }
+                : !limit ? {}
+                  : { x: [startIndex, limit] }
             }
             onZoomDomainChange={(domain) => {
               setTickSapFlow(determineTimeRange(domain));
@@ -183,6 +185,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         {checkboxSPIState && (
           // sap flow in data only shown if checkbox is checked
           <VictoryLine
+            testID='lineIn'
             data={sfmInData}
             style={{ data: { stroke: inLineColor } }}
             x="time"
@@ -192,6 +195,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         {checkboxSPOState && (
           // sap flow out data only shown if checkbox is checked
           <VictoryLine
+            testID='lineOut'
             data={sfmOutData}
             style={{ data: { stroke: outLineColor } }}
             x="time"
@@ -210,7 +214,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
             `Time: ${handleTick(datum.time, tickSapFlow)}`,
           ]}
           // Display data measurement at time if you scroll on graph
-          labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}}/>}
+          labelComponent={<VictoryTooltip flyoutWidth={160} flyoutHeight={60} style={{ fontSize: 12 }} />}
         />
       </VictoryChart>
     </View>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Platform } from "react-native";
-import { vw } from "react-native-expo-viewport-units";
+import { vw, vh } from "react-native-expo-viewport-units";
 import SapFlow from "./SapFlow";
 import Environment from "./Environment";
 
@@ -20,7 +20,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#ffffff",
-    paddingLeft: Platform.OS === "android" ? vw(50) : 0,
+    // paddingLeft: Platform.OS === "android" ? vw(50) : 0,
     paddingRight: Platform.OS === "ios" ? vw(50) : 0,
+    paddingBottom: vh(2)
   },
 });
