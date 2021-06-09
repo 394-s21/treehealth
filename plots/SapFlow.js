@@ -1,27 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet, Platform } from "react-native";
-// import { ListItem, Icon } from 'react-native-elements'
-// import { NavigationContainer, CommonActions } from '@react-navigation/native';
-// import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from "react-native-expo-viewport-units";
-// import { Foundation } from '@expo/vector-icons';
-// import {Picker} from '@react-native-picker/picker';
+import { View } from "react-native";
+import { vw } from "react-native-expo-viewport-units";
 import {
+  createContainer,
   VictoryLine,
   VictoryChart,
   VictoryTheme,
   VictoryAxis,
   VictoryLabel,
   VictoryScatter,
-  VictoryZoomContainer,
   VictoryTooltip,
 } from "../Victory";
-import { createContainer } from "../Victory";
-// import {createContainer} from '../Victory.web';
-// import { VictoryTooltip} from 'victory';
 import JsonParser from "./JsonParser";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-import { Line } from "react-native-svg";
 
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
@@ -47,7 +38,7 @@ function getTimePortion(time, key, num) {
   return "error";
 }
 
-export default function SapFlow({ timeRange }) {
+export default function SapFlow({ timeRange, domain, setDomain }) {
   // Sap Flow Sycamore
   var rawSFMData = require("../data/SFM2I102_sycamore.json");
   var inDistinctColor = "black";
@@ -74,11 +65,6 @@ export default function SapFlow({ timeRange }) {
     ...sfmInData,
     ...sfmOutData,
   ]);
-
-  // TODO: Un-hardcode the if statement for daily vs weekly in charts
-  console.log("In: ", sfmInData);
-  console.log("Out: ", sfmOutData);
-  // console.log(combinedSfmDaily.slice(combinedSfmDaily.length - 7))
 
   var chartAspectWidth = vw(85);
 
@@ -145,10 +131,15 @@ export default function SapFlow({ timeRange }) {
         containerComponent={
           <VictoryZoomVoronoiContainer
             responsive={false}
-            zoomDomain={!limit ? {} : { x: [startIndex, limit] }}
-            onZoomDomainChange={(domain) =>
-              setTickSapFlow(determineTimeRange(domain))
+            zoomDomain={
+              domain.length !== 0 ? {x: domain}
+              : !limit ? {}
+              : {x: [startIndex, limit]}
             }
+            onZoomDomainChange={(domain) => {
+              setTickSapFlow(determineTimeRange(domain));
+              setDomain(domain["x"]);
+            }}
           />
         }
       >
@@ -172,6 +163,7 @@ export default function SapFlow({ timeRange }) {
         />
         {checkboxSPIState && (
           <VictoryLine
+            testID='lineIn'
             data={sfmInData}
             style={{ data: { stroke: inLineColor } }}
             x="time"
@@ -180,6 +172,7 @@ export default function SapFlow({ timeRange }) {
         )}
         {checkboxSPOState && (
           <VictoryLine
+            testID='lineOut'
             data={sfmOutData}
             style={{ data: { stroke: outLineColor } }}
             x="time"
@@ -195,7 +188,7 @@ export default function SapFlow({ timeRange }) {
             `${datum.desc}: ${datum.data} ${datum.units}`,
             `Time: ${handleTick(datum.time, tickSapFlow)}`,
           ]}
-          labelComponent={<VictoryTooltip />}
+          labelComponent={<VictoryTooltip flyoutWidth={160} flyoutHeight={60} style={{fontSize: 12}}/>}
         />
       </VictoryChart>
     </View>

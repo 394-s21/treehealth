@@ -33,14 +33,14 @@ function getTimePortion(time, key, num) {
     return "error"
 }
 
-export default function LineChart({ label,data, lineColor, timeRange, displayed }) {
+export default function LineChart({ label, data, lineColor, timeRange, domain, setDomain }) {
     const chartAspectWidth = vw(85);
     const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
     // Amount of data points for a day
     const dailyLimit = 120;
     const weeklyLimit = 840;
     const monthlyLimit = 3360;
-    
+
     var limit = dailyLimit;
     if (timeRange === "weekly") limit = weeklyLimit;
     else if (timeRange === "monthly") limit = monthlyLimit;
@@ -57,19 +57,34 @@ export default function LineChart({ label,data, lineColor, timeRange, displayed 
     const [tick, setTick] = useState(timeRange);
     // TODO - Set as a parameter based on time range
     var startIndex = 0;
-
+    var xOffsets = [vw(15), vw(50), vw(85)];
     return (
-        <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material} 
+        <VictoryChart width={chartAspectWidth} theme={VictoryTheme.material}
         containerComponent={
-            <VictoryZoomVoronoiContainer 
-                responsive={false} 
-                zoomDomain={!limit ? {} : {x:[startIndex, limit]}} 
-                onZoomDomainChange={(domain) => setTick(determineTimeRange(domain)) }/>}>
+            <VictoryZoomVoronoiContainer
+                responsive={false}
+                zoomDomain={
+                    domain.length !== 0 ? {x: domain}
+                    : !limit ? {}
+                    : {x: [startIndex, limit]}
+                }
+                onZoomDomainChange={(domain) => {
+                    setTick(determineTimeRange(domain))
+                    setDomain(domain["x"]);
+                }}
+            />
+            }
+        >
             <VictoryAxis offsetY={50}
-                    tickCount={6}
-                    tickFormat={(t) => handleTick(t, tick)}
-                />
-            <VictoryAxis dependentAxis />
+                tickCount={6}
+                tickFormat={(t) => handleTick(t, tick)}
+            />
+            {data.map((d, i) => {
+                <VictoryAxis 
+                dependentAxis 
+                key={i} 
+                xOffset={xOffsets[i]} />
+            })}
             <VictoryLabel x={40} y={20} style={[{ fill: lineColor }]}
                 text={label}
             />
@@ -80,7 +95,7 @@ export default function LineChart({ label,data, lineColor, timeRange, displayed 
                     x="time"
                     y="data"
                     labels={({ datum }) => [`${datum.desc}: ${datum.data} ${datum.units}`, `Time: ${handleTick(datum.time, tick)}`]}
-                    labelComponent={<VictoryTooltip />}
+                    labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
                 />
         </VictoryChart>
 
