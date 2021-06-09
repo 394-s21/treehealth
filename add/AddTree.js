@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { View, Button, Text, StyleSheet, TextInput, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { View, Button, Text, StyleSheet, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 import { FontAwesome } from '@expo/vector-icons';
 import { Input } from 'react-native-elements';
 
 const SpeciesTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Species
   return (
     <Input
       style={styles.textInput}
@@ -21,7 +20,7 @@ const SpeciesTextInput = () => {
 
 const LocationTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Location
   return (
     <Input
       style={styles.textInput}
@@ -34,7 +33,7 @@ const LocationTextInput = () => {
 
 const DiameterTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Diameter
   return (
     <Input
       style={styles.textInput}
@@ -47,7 +46,7 @@ const DiameterTextInput = () => {
 
 const SensorTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Sap Flow Sensor ID
   return (
     <Input
       style={styles.textInput}
@@ -60,7 +59,7 @@ const SensorTextInput = () => {
 
 const NotesTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Notes about Tree
   return (
     <Input
       style={styles.NotesTextInput}
@@ -83,6 +82,7 @@ export default class AddTree extends React.Component {
   }
 
   handleAdd() {
+    // Add filter input to filters
     this.setState(prevState => ({
       filters: [...prevState.filters, this.state.filterInput],
       filterInput: ''
@@ -137,6 +137,7 @@ export default class AddTree extends React.Component {
 
       <View style={styles.buttons}>
         <View style={styles.button}>
+          {/* Button to navigate back to home screen */}
           <Button style={styles.insidebutton}
           title="Save"
           color="#38735D"

@@ -4,7 +4,7 @@ import { vw, vh } from "react-native-expo-viewport-units";
 import SapFlow from "./SapFlow";
 import Environment from "./Environment";
 
-export default function Charts({ navigation, timeRange }) {
+export default function Charts({ timeRange }) {
   const [domain, setDomain] = useState([]);
   return (
     <View style={styles.container}>

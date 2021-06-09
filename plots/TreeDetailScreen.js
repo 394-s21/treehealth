@@ -12,6 +12,7 @@ import Charts from "./Charts";
 import Collapsible from "react-native-collapsible";
 
 export default function TreeDetailScreen({ navigation }) {
+  // Object containing Tree Information 
   const treeInfo = {
     treeSpecies: "American Elm",
     treeLocation: "4100 IL-53, Lisle",
@@ -19,8 +20,12 @@ export default function TreeDetailScreen({ navigation }) {
     treeSensor: "Sensor: e7vi3",
     average: "8.5",
   };
+
+  // Set Initial State for Pickers to display
   const [selectedView, setSelectedView] = useState("daily");
   const [selectedTime, setSelectedTime] = useState("Mar 1");
+
+  // Set default ranges for each time selection
   const days = ["Mar 1", "Mar 2", "Mar 3", "Mar 4", "Mar 5"];
   const weeks = ["Feb 28 - Mar 6", "Mar 7-13", "Mar 14-20"];
   const months = [
@@ -41,11 +46,13 @@ export default function TreeDetailScreen({ navigation }) {
 
   const [collapsed, setCollapsed] = useState(true);
 
+  // Expands collapsible
   function toggleExpanded() {
     setCollapsed(!collapsed);
   }
 
   function DropdownTwo() {
+    //Changes the time Range displayed on graphs based on choice in Picker
     var timeRange = days;
     if (selectedView == "weekly") {
       timeRange = weeks;
@@ -56,6 +63,7 @@ export default function TreeDetailScreen({ navigation }) {
     }
 
     return (
+      // Renders picker for time value
       <Picker
         selectedValue={selectedTime}
         style={{
@@ -78,7 +86,6 @@ export default function TreeDetailScreen({ navigation }) {
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.filler}></Text>
-
       <TouchableOpacity onPress={toggleExpanded} testID="button">
         <View style={styles.header}>
           <Text style={styles.headerText}>
@@ -86,6 +93,7 @@ export default function TreeDetailScreen({ navigation }) {
           </Text>
         </View>
       </TouchableOpacity>
+      {/* Collapsible View of Tree Information */}
       <Collapsible collapsed={collapsed} align="center">
         <View style={styles.content} testID="treeInfo">
           <Text style={styles.paragraph}>
@@ -111,6 +119,7 @@ export default function TreeDetailScreen({ navigation }) {
             </View>
             <View style={{ textAlign: "center", marginBottom: 10, flex: 10 }}>
               <View style={styles.filterDiv}>
+                {/* Picker for time Range (daily, weekly, monthly, etc.) */}
                 <Picker
                   selectedValue={selectedView}
                   style={{
@@ -136,7 +145,7 @@ export default function TreeDetailScreen({ navigation }) {
           </Text>
         </View>
       </Collapsible>
-
+      {/* Charts for this tree */}
       <Charts timeRange={selectedView} />
     </ScrollView>
   );

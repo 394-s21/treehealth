@@ -1,7 +1,6 @@
 import  React from 'react';
-import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Button, Text, StyleSheet, Image } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 
 
 export default function Login({navigation}) {
@@ -10,11 +9,13 @@ export default function Login({navigation}) {
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
+        {/* Display TreeSearcher logo */}
         <Image style={styles.image} source={require('../logo.png')} />
       </Text>
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>
         <View style={styles.button}>
+          {/* Click button to Sign Up */}
           <Button style={styles.insidebutton}
           title="Sign Up"
           color="#38735D"
@@ -29,6 +30,7 @@ export default function Login({navigation}) {
           </Button>
         </View>
         <View style={styles.button}>
+          {/* Click button to Sign In */}
           <Button style={styles.insidebutton}
           title="Sign In"
           color="#38735D"

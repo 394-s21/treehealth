@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 
 
 export default class Add extends React.Component {
@@ -16,6 +15,7 @@ export default class Add extends React.Component {
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.buttons}>
+        {/* Button to Add a tree */}
         <Button buttonStyle={{backgroundColor: '#38735D', width: vw(60), padding: 15}}
           raised
           title="Add Tree"
@@ -27,6 +27,7 @@ export default class Add extends React.Component {
           )}
           ></Button>
           <View style={{height: vh(20)}} />
+          {/* Button to Add a plot */}
           <Button buttonStyle={{backgroundColor: '#38735D', width: vw(60), padding: 15}}
           title="Add Plot"
           raised

@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, TextInput, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
-import { Foundation } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 import { FontAwesome } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 
 
 export default function MyForest({navigation}) {
+  // Initialize screen as showing list of trees
   const [selectedValue, setSelectedValue] = useState('tree')
 
+  // Initialize trees and plots
   const trees = ['Tree 1', 'Tree 2', 'Tree 3', 'Tree 4', 'Tree 5', 'Tree 6']
   const plots = ['Plot 1', 'Plot 2', 'Plot 3', 'Plot 4', 'Plot 5']
 
   function TreeOrPlot() {
     var list = selectedValue === 'tree' ? trees : plots
+    // Create list of either trees or plots depending on selectedValue
     return (
       <View>
         {list.map((item, id) => (
@@ -44,7 +45,7 @@ export default function MyForest({navigation}) {
           <Text style={{ fontSize: 25, marginTop: 10 }}> Filter by </Text>
           <View style={{ marginTop: 5 }}>
             <View style={styles.dropdown}>
-
+              {/* Picker to switch between trees and plots */}
               <Picker
                 mode="dropdown"
                 placeholdericoncolor={'#E2E2E2'}
@@ -71,6 +72,7 @@ export default function MyForest({navigation}) {
 
       </Text>
       <Text style={{ textAlign: 'center', justifyContent: 'center', alignItems: 'center', flex: 7}}>
+        {/* Navigate to a page to add a tree or plot */}
         <TouchableHighlight onPress={() =>
           navigation.dispatch(
             CommonActions.navigate({
