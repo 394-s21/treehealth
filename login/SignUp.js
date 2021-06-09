@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { View, Button, Text, StyleSheet, Image } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 import DatePicker from 'react-native-datepicker';
 import { Input } from 'react-native-elements';
 

@@ -13,7 +13,6 @@ import {
 } from "../Victory";
 import JsonParser from "./JsonParser";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-// import LineChart from "./LineChart";
 
 function handleTick(t, tickType) {
   if (tickType === "daily") return `${getTimePortion(t, "|", 0)}`;
@@ -104,7 +103,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
   }
 
   const [tick, setTick] = useState(timeRange);
-  // TODO - Set as a parameter based on time range
   var startIndex = 0;
   // determines positions of y-axes for each data type along the graph
   var xOffsets = [vw(2.6), vw(42.5), vw(82.4)];
@@ -112,8 +110,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
   const maxima = envData.map(
       (dataset) => Math.max(...dataset.map((d) => d.data))
   );
-
-  // var rawSpruceData = require('../data/102_norwayspruce.json');
   
   // initialize checkbox values
   const [checkboxVpd, setCheckboxVpd] = useState(false);
@@ -200,7 +196,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
             />
-
             {/* y-axis for vpd, only shown if vpd checkbox is checked */}
             {checkboxVpd && (<VictoryAxis
                 dependentAxis

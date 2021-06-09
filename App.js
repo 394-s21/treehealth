@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { View, Button, Text, StyleSheet, TextInput } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -12,7 +12,6 @@ import SignIn from './login/SignIn';
 import Add from './add/Add';
 import MyForest from './MyForest';
 import TreeDetailScreen from './plots/TreeDetailScreen';
-import Charts from './plots/Charts';
 
 const Stack = createStackNavigator();
 

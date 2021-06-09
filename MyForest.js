@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { View, Button, Text, StyleSheet, TextInput, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableHighlight, ScrollView, SafeAreaView, StatusBar } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
-import { Foundation } from '@expo/vector-icons';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 import { FontAwesome } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 
