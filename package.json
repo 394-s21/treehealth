@@ -49,12 +49,19 @@
     "@babel/core": "~7.9.0",
     "@testing-library/jest-native": "^4.0.1",
     "@testing-library/react-native": "^7.2.0",
-    "jest": "^27.0.3"
+    "jest": "^27.0.4",
+    "react-test-renderer": "^17.0.2"
   },
   "jest": {
     "preset": "react-native",
+    "setupFiles": [
+      "./node_modules/react-native-gesture-handler/jestSetup.js"
+    ],
     "setupFilesAfterEnv": [
       "@testing-library/jest-native/extend-expect"
+    ],
+    "transformIgnorePatterns": [
+      "node_modules/(?!(react-native|react-native-expo-viewport-units|react-native-bouncy-checkbox|react-native-collapsible|react-native-iphone-x-helper|@react-native-picker|react-native-gesture-handler|victory-native|victory-core|victory-shared-events|victory-area|victory-bar|victory-candlestick|victory-line|victory-errorbar|victory-pie|victory-voronoi|victory-tooltip|victory-axis|victory-polar-axis|victory-box-plot|victory-group|victory-histogram|victory-scatter|victory-stack|victory-chart|victory-legend)/)"
     ]
   },
   "private": true
