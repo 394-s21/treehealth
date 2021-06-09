@@ -5,9 +5,9 @@ import SapFlow from '../plots/SapFlow';
 jest.mock('react-native-bouncy-checkbox', () => {
   return {
     __esModule: true,
-    default: ({ text, onPress }) => (
+    default: ({ testID, onPress }) => (
       <div
-        testID={`${text}-checkbox`}
+        testID={testID}
         onPress={onPress}
       />
     )

@@ -115,6 +115,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         text="Sap Flow In"
         iconStyle={{ borderColor: "blue" }}
         onPress={() => setSPICheckboxState(!checkboxSPIState)}
+        testID='Sap Flow In-checkbox'
       />
       <BouncyCheckbox
         size={25}
@@ -124,6 +125,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         iconStyle={{ borderColor: "red" }}
         onPress={() => setSPOCheckboxState(!checkboxSPOState)}
         isChecked={true}
+        testID='Sap Flow Out-checkbox'
       />
       <VictoryChart
         width={chartAspectWidth}
@@ -132,9 +134,9 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
           <VictoryZoomVoronoiContainer
             responsive={false}
             zoomDomain={
-              domain.length !== 0 ? {x: domain}
-              : !limit ? {}
-              : {x: [startIndex, limit]}
+              domain.length !== 0 ? { x: domain }
+                : !limit ? {}
+                  : { x: [startIndex, limit] }
             }
             onZoomDomainChange={(domain) => {
               setTickSapFlow(determineTimeRange(domain));
@@ -188,7 +190,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
             `${datum.desc}: ${datum.data} ${datum.units}`,
             `Time: ${handleTick(datum.time, tickSapFlow)}`,
           ]}
-          labelComponent={<VictoryTooltip flyoutWidth={160} flyoutHeight={60} style={{fontSize: 12}}/>}
+          labelComponent={<VictoryTooltip flyoutWidth={160} flyoutHeight={60} style={{ fontSize: 12 }} />}
         />
       </VictoryChart>
     </View>
