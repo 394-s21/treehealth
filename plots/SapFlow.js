@@ -17,6 +17,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi");
 
 function handleTick(t, tickType) {
+  // Calls getTimePortion with appropriate inputs based on time range selected
   if (tickType === "daily") return `${getTimePortion(t, "|", 0)}`;
   else if (tickType === "weekly") return `${getTimePortion(t, "|", 1)}`;
   else if (tickType === "monthly") return `${getTimePortion(t, "|", 2)}`;
@@ -25,6 +26,7 @@ function handleTick(t, tickType) {
 }
 
 function getTimePortion(time, key, num) {
+  // returns x-axis value of time depending on time range
   if (typeof time === "string" || time instanceof String) {
     var dummy = time;
     for (var i = 0; i < num; i++) {
@@ -41,8 +43,10 @@ function getTimePortion(time, key, num) {
 export default function SapFlow({ timeRange, domain, setDomain }) {
   // Sap Flow Sycamore
   var rawSFMData = require("../data/SFM2I102_sycamore.json");
+  // Set Sap Flow In Colors
   var inDistinctColor = "black";
   var inLineColor = "#00a3de";
+  // Fetch Sap Flow In Data
   var sfmInData = JsonParser(
     rawSFMData,
     "Corrected In (cm/hr)",
@@ -50,9 +54,10 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
     "Sap Flow In",
     "cm/hr"
   );
-
+  // Set Sap Flow Out Colors
   var outDistinctColor = "#00a3de";
   var outLineColor = "#7c270b";
+  // Fetch Sap Flow Out Data
   var sfmOutData = JsonParser(
     rawSFMData,
     "Corrected Out (cm/hr)",
@@ -61,11 +66,13 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
     "cm/hr"
   );
 
+  // Combine data together
   const [combinedSfmData, setCombinedSfmData] = useState([
     ...sfmInData,
     ...sfmOutData,
   ]);
 
+  // Width of chart
   var chartAspectWidth = vw(85);
 
   const [tickSapFlow, setTickSapFlow] = useState(timeRange);
@@ -74,12 +81,14 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
   const weeklyLimit = 840;
   const monthlyLimit = 3360;
 
+  // set current limit based on time range setting
   var limit = dailyLimit;
   if (timeRange === "weekly") limit = weeklyLimit;
   else if (timeRange === "monthly") limit = monthlyLimit;
   else if (timeRange === "yearly") limit = null;
 
   function determineTimeRange(domain) {
+    // calculates time range based on the number of data points currently on graph
     var points = domain["x"][1] - domain["x"][0];
     if (points < dailyLimit) return "daily";
     else if (points > dailyLimit && points < weeklyLimit) return "weekly";
@@ -91,9 +100,11 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
   // TODO - Set as a parameter based on time range
   var startIndex = 0;
 
+  // initialize state of checkbox
   const [checkboxSPIState, setSPICheckboxState] = useState(true);
   const [checkboxSPOState, setSPOCheckboxState] = useState(false);
 
+  // Called whenever a checkbox is checked or unchecked, appropriately sets the combined SFM data to contain both, either , or none of sap flow in and out data
   useEffect(() => {
     if (checkboxSPIState && checkboxSPOState) {
       setCombinedSfmData([...sfmInData, ...sfmOutData]);
@@ -108,6 +119,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
 
   return (
     <View>
+      {/* Sap Flow In Checkbox */}
       <BouncyCheckbox
         size={25}
         fillColor="blue"
@@ -116,6 +128,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         iconStyle={{ borderColor: "blue" }}
         onPress={() => setSPICheckboxState(!checkboxSPIState)}
       />
+      {/* Sap Flow Out Checkbox */}
       <BouncyCheckbox
         size={25}
         fillColor="red"
@@ -130,6 +143,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         theme={VictoryTheme.material}
         containerComponent={
           <VictoryZoomVoronoiContainer
+          // container used to reset graph after zoom and display tooltip
             responsive={false}
             zoomDomain={
               domain.length !== 0 ? {x: domain}
@@ -144,24 +158,30 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
         }
       >
         <VictoryAxis
+          // x-axis showing time
           offsetY={50}
           tickCount={6}
           tickFormat={(t) => handleTick(t, tickSapFlow)}
         />
-        <VictoryAxis dependentAxis />
+        <VictoryAxis 
+        // y-axis showing sap flow measurements
+        dependentAxis />
         <VictoryLabel
+          // label at top of graph indicating which line is Sap Flow In
           x={40}
           y={20}
           style={[{ fill: inLineColor }]}
           text={"Sap Flow In"}
         />
         <VictoryLabel
+          // label at top of graph indicating which line is Sap Flow Out
           x={40}
           y={35}
           style={[{ fill: outLineColor }]}
           text={"Sap Flow Out"}
         />
         {checkboxSPIState && (
+          // sap flow in data only shown if checkbox is checked
           <VictoryLine
             data={sfmInData}
             style={{ data: { stroke: inLineColor } }}
@@ -170,6 +190,7 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
           />
         )}
         {checkboxSPOState && (
+          // sap flow out data only shown if checkbox is checked
           <VictoryLine
             data={sfmOutData}
             style={{ data: { stroke: outLineColor } }}
@@ -178,14 +199,17 @@ export default function SapFlow({ timeRange, domain, setDomain }) {
           />
         )}
         <VictoryScatter
+          // Scatter plot consisting of both, some, or none of sap flow in and sap flow out. Used for showing tooltip
           data={combinedSfmData}
           style={{ data: { fill: ({ datum }) => datum.color } }}
           x="time"
           y="data"
+          // Format labels of Tooltip
           labels={({ datum }) => [
             `${datum.desc}: ${datum.data} ${datum.units}`,
             `Time: ${handleTick(datum.time, tickSapFlow)}`,
           ]}
+          // Display data measurement at time if you scroll on graph
           labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}}/>}
         />
       </VictoryChart>

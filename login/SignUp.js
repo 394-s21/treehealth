@@ -8,6 +8,7 @@ import { Input } from 'react-native-elements';
 
 
 export default function SignUp({ navigation }) {
+  // Initialize all variables
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -19,18 +20,21 @@ export default function SignUp({ navigation }) {
         <Image style={styles.image} source={require('../logo.png')} />
       </Text>
       <Text style={styles.paragraph}>
+        {/* Input for email */}
         <Input
           style={styles.textInput}
           onChangeText={setEmail}
           value={email}
           placeholder="Email*"
         />
+        {/* Input for username */}
         <Input
           style={styles.textInput}
           onChangeText={setUsername}
           value={username}
           placeholder="Username*"
         />
+        {/* Input for password */}
         <Input
           style={styles.textInput}
           onChangeText={setPassword}
@@ -39,6 +43,7 @@ export default function SignUp({ navigation }) {
           secureTextEntry={true}
         />
         <View style={styles.datePicker}>
+          {/* Picker for birthdate */}
           <Text style={{ marginTop: 7, color: 'gray', fontSize: 16 }}> Birthdate*&nbsp;&nbsp;</Text>
           <DatePicker
             style={{ width: vw(50) }}
@@ -53,6 +58,7 @@ export default function SignUp({ navigation }) {
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>
         <View style={styles.button}>
+          {/* Sign Up Button that navitates to Home Page */}
           <Button style={styles.insidebutton}
             title="SIGN UP"
             color="#38735D"
