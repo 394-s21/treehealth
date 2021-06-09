@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { View, Text, StyleSheet, TextInput } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { CommonActions } from '@react-navigation/native';
+import { vw, vh } from 'react-native-expo-viewport-units';
 
 
 export default class Add extends React.Component {

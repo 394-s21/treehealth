@@ -1,7 +1,6 @@
 import  React from 'react';
-import { View, Button, Text, StyleSheet, TextInput, Image } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Button, Text, StyleSheet, Image } from 'react-native';
+import { CommonActions } from '@react-navigation/native';
 
 
 export default function Login({navigation}) {

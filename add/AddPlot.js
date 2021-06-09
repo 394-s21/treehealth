@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { View, Button, Text, StyleSheet, TextInput, ScrollView, SafeAreaView, StatusBar } from 'react-native';
-import { NavigationContainer, CommonActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { vw, vh, vmin, vmax } from 'react-native-expo-viewport-units';
+import { vw, vh } from 'react-native-expo-viewport-units';
 import { Input } from 'react-native-elements';
 
 const NicknameTextInput = () => {
@@ -57,20 +55,6 @@ const NotesTextInput = () => {
     />
   );
 }
-
-const FilterTextInput = () => {
-  const [value, onChangeText] = React.useState('');
-
-  return (
-    <TextInput
-      style={styles.filterTextInput}
-      onChangeText={text => onChangeText(text)}
-      value={value}
-      placeholder = "Enter filter name"
-    />
-  );
-}
-
 
 export default class Login extends React.Component {
   constructor(props) {

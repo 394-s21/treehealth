@@ -13,7 +13,6 @@ import {
 } from "../Victory";
 import JsonParser from "./JsonParser";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
-// import LineChart from "./LineChart";
 
 function handleTick(t, tickType) {
   if (tickType === "daily") return `${getTimePortion(t, "|", 0)}`;
@@ -100,14 +99,11 @@ export default function Environment({ timeRange, domain, setDomain }) {
   }
 
   const [tick, setTick] = useState(timeRange);
-  // TODO - Set as a parameter based on time range
   var startIndex = 0;
   var xOffsets = [vw(2.6), vw(42.5), vw(82.4)];
   const maxima = envData.map(
       (dataset) => Math.max(...dataset.map((d) => d.data))
   );
-
-  // var rawSpruceData = require('../data/102_norwayspruce.json');
 
   const [checkboxVpd, setCheckboxVpd] = useState(false);
   const [checkboxTemp, setCheckboxTemp] = useState(false);
@@ -186,21 +182,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
                 tickCount={6}
                 tickFormat={(t) => handleTick(t, tick)}
             />
-            {/* {envData.map((d, i) => {
-                {console.log(i)}
-                <VictoryAxis
-                dependentAxis
-                key={i}
-                xOffset={xOffsets[i]}
-                // style={{
-                //   axis: { stroke: vpdLineColor },
-                //   ticks: { padding: 0 },
-                //   tickLabels: { fill: vpdLineColor}
-                // }}
-                tickValues={[0.25, 0.5, 0.75, 1]}
-                tickFormat={(t) => t * maxima[i]}
-                />
-            })} */}
             {checkboxVpd && (<VictoryAxis
                 dependentAxis
                 offsetX={xOffsets[0]}
@@ -267,39 +248,6 @@ export default function Environment({ timeRange, domain, setDomain }) {
                     labelComponent={<VictoryTooltip flyoutWidth={vw(9)} flyoutHeight={vw(5)} style={{fontSize: 15}} />}
                 />
         </VictoryChart>
-      {/* VPD graph */}
-      {/* {checkboxVpd && (
-        <LineChart
-          label={"VPD"}
-          data={vpdData}
-          lineColor={vpdLineColor}
-          timeRange={timeRange}
-          domain={domain}
-          setDomain={setDomain}
-        />
-      )} */}
-      {/* Temp graph */}
-      {/* {checkboxTemp && (
-        <LineChart
-          label={"Temperature"}
-          data={tempData}
-          lineColor={tempLineColor}
-          timeRange={timeRange}
-          domain={domain}
-          setDomain={setDomain}
-        />
-      )} */}
-      {/* Precipitation graph */}
-      {/* {checkboxPrecipitation && (
-        <LineChart
-          label={"Precipitation"}
-          data={rainData}
-          lineColor={rainLineColor}
-          timeRange={timeRange}
-          domain={domain}
-          setDomain={setDomain}
-        />
-      )} */}
     </View>
   );
 }
