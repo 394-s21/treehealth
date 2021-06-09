@@ -5,7 +5,7 @@ import { Input } from 'react-native-elements';
 
 const NicknameTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Input to enter nickname for a Plot
   return (
     <Input
       style={styles.textInput}
@@ -18,7 +18,7 @@ const NicknameTextInput = () => {
 
 const LocationTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Input to enter plot's location
   return (
     <Input
       style={styles.textInput}
@@ -31,7 +31,7 @@ const LocationTextInput = () => {
 
 const NumberTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Input to enter number of trees
   return (
     <Input
       style={styles.textInput}
@@ -44,7 +44,7 @@ const NumberTextInput = () => {
 
 const NotesTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Input to enter notes about plot
   return (
     <Input
       style={styles.notesTextInput}
@@ -66,6 +66,7 @@ export default class Login extends React.Component {
   }
 
   handleAdd() {
+    // Adds filter input to filters
     this.setState(prevState => ({
       filters: [...prevState.filters, this.state.filterInput],
       filterInput: ''

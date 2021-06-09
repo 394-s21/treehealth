@@ -5,6 +5,7 @@ import { vw, vh } from 'react-native-expo-viewport-units';
 import { Input } from 'react-native-elements';
 
 export default function SignIn({ navigation }) {
+  // Initialize username and password
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -17,12 +18,14 @@ export default function SignIn({ navigation }) {
       </Text>
       <Text style={styles.filler}></Text>
       <Text style={styles.paragraph}>
+        {/* Input for username */}
         <Input
           style={styles.textInput}
           onChangeText={setUsername}
           value={username}
           placeholder="Username*"
         />
+        {/* Input for password */}
         <Input
           style={styles.textInput}
           onChangeText={setPassword}
@@ -34,6 +37,7 @@ export default function SignIn({ navigation }) {
       <Text style={styles.filler}></Text>
       <View style={styles.buttons}>
         <View style={styles.button}>
+          {/* Sign-In Button, redirects to Home Page */}
           <Button style={styles.insidebutton}
             title="SIGN IN"
             color="#38735D"

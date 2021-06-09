@@ -7,7 +7,7 @@ import { Input } from 'react-native-elements';
 
 const SpeciesTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Species
   return (
     <Input
       style={styles.textInput}
@@ -20,7 +20,7 @@ const SpeciesTextInput = () => {
 
 const LocationTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Location
   return (
     <Input
       style={styles.textInput}
@@ -33,7 +33,7 @@ const LocationTextInput = () => {
 
 const DiameterTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Tree Diameter
   return (
     <Input
       style={styles.textInput}
@@ -46,7 +46,7 @@ const DiameterTextInput = () => {
 
 const SensorTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Sap Flow Sensor ID
   return (
     <Input
       style={styles.textInput}
@@ -59,7 +59,7 @@ const SensorTextInput = () => {
 
 const NotesTextInput = () => {
   const [value, onChangeText] = React.useState('');
-
+  // Add Notes about Tree
   return (
     <Input
       style={styles.NotesTextInput}
@@ -82,6 +82,7 @@ export default class AddTree extends React.Component {
   }
 
   handleAdd() {
+    // Add filter input to filters
     this.setState(prevState => ({
       filters: [...prevState.filters, this.state.filterInput],
       filterInput: ''
@@ -136,6 +137,7 @@ export default class AddTree extends React.Component {
 
       <View style={styles.buttons}>
         <View style={styles.button}>
+          {/* Button to navigate back to home screen */}
           <Button style={styles.insidebutton}
           title="Save"
           color="#38735D"

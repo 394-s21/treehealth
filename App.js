@@ -19,13 +19,21 @@ export default function App() {
   return (
     <NavigationContainer style={styles.container}>
       <Stack.Navigator style={styles.container}>
+        {/* Login Screen */}
         <Stack.Screen name="Treesearcher" component={Login} key="login" />
+        {/* Sign Up Screen */}
         <Stack.Screen name="Sign up" component={SignUp} key="signup" />
+        {/* Sign In Screen  */}
         <Stack.Screen name="Sign in" component={SignIn} key="signin" />
+        {/* Screen Showing List of Trees */}
         <Stack.Screen name="My forest" component={MyForest} key="myforest" />
+        {/* Add a Tree or Plot */}
         <Stack.Screen name="Add a tree/plot" component={Add} key="add" />
+        {/* Add a Tree */}
         <Stack.Screen name="Add tree" component={AddTree} key="addtree" />
+        {/* Add a Plot */}
         <Stack.Screen name="Add plot" component={AddPlot} key="addplot" />
+        {/* Screen Showing Graphs and other Tree Info */}
         <Stack.Screen name="Tree Detail" component={TreeDetailScreen} key="treedetail" />
       </Stack.Navigator>
     </NavigationContainer>

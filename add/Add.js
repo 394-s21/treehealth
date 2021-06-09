@@ -15,6 +15,7 @@ export default class Add extends React.Component {
     <View style={styles.container}>
       <Text style={styles.filler}></Text>
       <Text style={styles.buttons}>
+        {/* Button to Add a tree */}
         <Button buttonStyle={{backgroundColor: '#38735D', width: vw(60), padding: 15}}
           raised
           title="Add Tree"
@@ -26,6 +27,7 @@ export default class Add extends React.Component {
           )}
           ></Button>
           <View style={{height: vh(20)}} />
+          {/* Button to Add a plot */}
           <Button buttonStyle={{backgroundColor: '#38735D', width: vw(60), padding: 15}}
           title="Add Plot"
           raised
