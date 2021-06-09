@@ -14,15 +14,15 @@ test('Testing test', () => {
 //   });
 // });
 
-test('Sapflow checkboxes control sap flow line graphs', () => {
-  const { getByText, getByAccessibilityLabel } = render(
-    <SapFlow />
-  );
+// it('Sapflow checkboxes control sap flow line graphs', () => {
+//   const { getByText, getByAccessibilityLabel } = render(
+//     <SapFlow />
+//   );
 
-  fireEvent.press(getByText('Sap Flow In'));
+//   fireEvent.press(getByText('Sap Flow In'));
 
-  const sfiLine = getByAccessibilityLabel('sfiLine');
-  const sfoLine = getByAccessibilityLabel('sfoLine');
-  expect(sfiLine).toBeNull();
-  expect(sfoLine).toBeNull();
-});
+//   const sfiLine = getByAccessibilityLabel('sfiLine');
+//   const sfoLine = getByAccessibilityLabel('sfoLine');
+//   expect(sfiLine).toBeNull();
+//   expect(sfoLine).toBeNull();
+// });
