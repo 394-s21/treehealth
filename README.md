@@ -5,16 +5,17 @@ Treesearcher is a mobile app that allows you to observe collected data from
 your registered trees. The app provides:
 - Visualizations of data
   - Sap Flow
-  - Dendrometer
-  - Weather
+  - Weather (Vapor Pressure Deficit, Temperature, Precipitation)
 - Zoom and pan functionality to look at data over multiple time ranges
 - Data comparison across the same periods of time
+- Mark missing data points as red points
+- Checkboxes to show/hide certain types of data
 
 ## Installation
 ```
 git clone https://github.com/394-s21/treehealth
 cd treehealth
-npm intall --global expo-cli
+npm install --global expo-cli
 npm install
 ```
 
