@@ -8,7 +8,7 @@ your registered trees. The app provides:
   - Weather (Vapor Pressure Deficit, Temperature, Precipitation)
 - Zoom and pan functionality to look at data over multiple time ranges
 - Data comparison across the same periods of time
-- Mark missing data points as red points
+- Mark missing data as red points
 - Checkboxes to show/hide certain types of data
 
 ## Installation
